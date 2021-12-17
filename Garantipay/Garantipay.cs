@@ -13,13 +13,15 @@ namespace Garantipay {
         Garantipay.GVPSResponse Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency);
     }
     public class Garantipay : IGarantipay {
-        private const string Endpoint = "https://sanalposprov.garanti.com.tr/VPServlet";
+        private string Endpoint { get; set; }
         private string ClientId { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
         private string Mode { get; set; }
         private string IPv4 { get; set; }
-        public Garantipay() { }
+        public Garantipay() {
+            Endpoint = "https://sanalposprov.garanti.com.tr/VPServlet";
+        }
         [Serializable, XmlRoot("GVPSRequest")]
         public class GVPSRequest {
             [XmlElement("Mode", IsNullable = false)]
