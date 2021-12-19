@@ -1,4 +1,4 @@
-[![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-soft/Garantipay.NET/blob/master/LICENSE.md)
+[![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-soft/Garantipay.NET/blob/main/LICENSE.md)
 
 # Garantipay.NET
 Garanti Bankası Sanal POS API with .NET
