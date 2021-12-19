@@ -8,6 +8,7 @@ Garanti Bankası Sanal POS API with .NET
 dotnet add package Garantipay --version 1.0.1
 ```
 
+# Usage
 ```c#
 using Garantipay;
 
