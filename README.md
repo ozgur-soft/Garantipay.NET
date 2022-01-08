@@ -1,11 +1,11 @@
 [![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-soft/Garantipay.NET/blob/main/LICENSE.md)
 
 # Garantipay.NET
-Garanti Bankası Sanal POS API with .NET
+Garanti Bankası Virtual POS API with .NET
 
 # Installation
 ```bash
-dotnet add package Garantipay --version 1.0.1
+dotnet add package Garantipay --version 1.0.2
 ```
 
 # Usage
