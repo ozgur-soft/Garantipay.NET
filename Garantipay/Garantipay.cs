@@ -59,9 +59,9 @@ namespace Garantipay {
             [XmlElement("Number", IsNullable = false)]
             public string Number { init; get; }
             [XmlElement("ExpireDate", IsNullable = false)]
-            public string ExpireDate { init; get; }
+            public string Expiry { init; get; }
             [XmlElement("CVV2", IsNullable = false)]
-            public string CVV2 { init; get; }
+            public string Code { init; get; }
         }
 
         public class Customer {
@@ -234,8 +234,8 @@ namespace Garantipay {
                 },
                 Card = new Card {
                     Number = cardnumber,
-                    ExpireDate = cardmonth + cardyear,
-                    CVV2 = cardcode,
+                    Expiry = cardmonth + cardyear,
+                    Code = cardcode,
                 },
                 Transaction = new Transaction {
                     Type = "sales",
