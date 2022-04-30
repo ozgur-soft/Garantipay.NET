@@ -348,6 +348,9 @@ namespace Garantipay {
                     Type = "void",
                     Amount = Amount.Replace(".", string.Empty),
                     CurrencyCode = Currency
+                },
+                Order = new Order {
+                    OrderID = OrderID
                 }
             };
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
@@ -391,6 +394,9 @@ namespace Garantipay {
                     Type = "refund",
                     Amount = Amount.Replace(".", string.Empty),
                     CurrencyCode = Currency
+                },
+                Order = new Order {
+                    OrderID = OrderID
                 }
             };
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
