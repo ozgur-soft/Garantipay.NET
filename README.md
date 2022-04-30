@@ -8,24 +8,28 @@ Garanti Bankası Virtual POS API with .NET
 dotnet add package Garantipay --version 1.0.2
 ```
 
-# Usage
+# Sanalpos satış işlemi
 ```c#
-using Garantipay;
-
-var garantipay = new Garantipay();
-garantipay.SetClientId("API clientid");
-garantipay.SetUsername("API username");
-garantipay.SetPassword("API password");
-garantipay.SetIPv4("Customer IPv4 address");
-garantipay.Pay(
-    "Credit card number (Eg: 4321432143214321)",
-    "Card month (Eg: 02)",
-    "Card year (Eg: 22)",
-    "Card security code: (Eg: 123)",
-    "Customer firstname",
-    "Customer lastname",
-    "Customer phone number",
-    "Amount (Eg: 1.00)",
-    "Currency code ( $: 840 || €: 978 || ₺: 949 )"
-);
+namespace Garantipay {
+    internal class Program {
+        static void Main(string[] args) {
+            var garantipay = new Garantipay();
+            garantipay.SetClientID(""); // Terminal no
+            garantipay.SetUsername(""); // Üye işyeri no
+            garantipay.SetPassword(""); // PROVAUT kullanıcı şifresi
+            garantipay.SetCardNumber("4242424242424242"); // Kart numarası
+            garantipay.SetCardExpiry("02", "20"); // Son kullanma tarihi (Ay ve Yılın son 2 hanesi) AAYY
+            garantipay.SetCardCode("123"); // Cvv2 Kodu (kartın arka yüzündeki 3 haneli numara)
+            garantipay.SetAmount("1.00", "TRY"); // Satış tutarı ve para birimi
+            garantipay.SetInstallment(""); // Taksit sayısı (varsa)
+            garantipay.SetCardHolder("Ad", "Soyad"); // Kart sahibi
+            garantipay.SetPhoneNumber(""); // Müşteri telefon numarası
+            garantipay.SetIPv4(""); // Müşteri IP adresi (zorunlu)
+            var response = garantipay.Pay();
+            if (response != null) {
+                Console.WriteLine(Garantipay.JsonString<Garantipay.Transaction>(response.Transaction));
+            }
+        }
+    }
+}
 ```
