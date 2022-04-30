@@ -25,7 +25,6 @@ namespace Garantipay {
         Garantipay.GVPSResponse Refund();
     }
     public class Garantipay : IGarantipay {
-        private static Dictionary<string, string> CurrencyCodes;
         private string Endpoint { get; set; }
         private string Mode { get; set; }
         private string ClientID { get; set; }
@@ -45,7 +44,6 @@ namespace Garantipay {
         private string CardCode { get; set; }
         public Garantipay() {
             Endpoint = "https://sanalposprov.garanti.com.tr/VPServlet";
-            CurrencyCodes = new() { { "TRY", "949" }, { "YTL", "949" }, { "TRL", "949" }, { "TL", "949" }, { "USD", "840" }, { "EUR", "978" }, { "GBP", "826" }, { "JPY", "392" } };
         }
         [Serializable, XmlRoot("GVPSRequest")]
         public class GVPSRequest {
@@ -248,7 +246,17 @@ namespace Garantipay {
         }
         public void SetAmount(string amount, string currency) {
             Amount = amount;
-            Currency = CurrencyCodes[currency];
+            Currency = currency switch {
+                "TRY" => "949",
+                "YTL" => "949",
+                "TRL" => "949",
+                "TL" => "949",
+                "USD" => "840",
+                "EUR" => "978",
+                "GBP" => "826",
+                "JPY" => "392",
+                _ => null
+            };
         }
         public void SetInstallment(string installment) {
             Installment = installment;
