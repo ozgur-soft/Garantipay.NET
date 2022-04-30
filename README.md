@@ -42,7 +42,7 @@ namespace Garantipay {
             var garantipay = new Garantipay();
             garantipay.SetClientID(""); // Terminal no
             garantipay.SetUsername(""); // Üye işyeri no
-            garantipay.SetPassword(""); // PROVAUT kullanıcı şifresi
+            garantipay.SetPassword(""); // PROVRFN kullanıcı şifresi
             garantipay.SetAmount("1.00", "TRY"); // İade tutarı ve para birimi
             garantipay.SetIPv4(""); // IP adresi (zorunlu)
             garantipay.SetOrderID(""); // Sipariş numarası
@@ -63,7 +63,7 @@ namespace Garantipay {
             var garantipay = new Garantipay();
             garantipay.SetClientID(""); // Terminal no
             garantipay.SetUsername(""); // Üye işyeri no
-            garantipay.SetPassword(""); // PROVAUT kullanıcı şifresi
+            garantipay.SetPassword(""); // PROVRFN kullanıcı şifresi
             garantipay.SetAmount("1.00", "TRY"); // İptal tutarı ve para birimi
             garantipay.SetIPv4(""); // IP adresi (zorunlu)
             garantipay.SetOrderID(""); // Sipariş numarası
