@@ -33,3 +33,45 @@ namespace Garantipay {
     }
 }
 ```
+
+# Sanalpos iade işlemi
+```c#
+namespace Garantipay {
+    internal class Program {
+        static void Main(string[] args) {
+            var garantipay = new Garantipay();
+            garantipay.SetClientID(""); // Terminal no
+            garantipay.SetUsername(""); // Üye işyeri no
+            garantipay.SetPassword(""); // PROVAUT kullanıcı şifresi
+            garantipay.SetAmount("1.00", "TRY"); // İade tutarı ve para birimi
+            garantipay.SetIPv4(""); // IP adresi (zorunlu)
+            garantipay.SetOrderID(""); // Sipariş numarası
+            var response = garantipay.Refund();
+            if (response != null) {
+                Console.WriteLine(Garantipay.JsonString<Garantipay.Transaction>(response.Transaction));
+            }
+        }
+    }
+}
+```
+
+# Sanalpos iptal işlemi
+```c#
+namespace Garantipay {
+    internal class Program {
+        static void Main(string[] args) {
+            var garantipay = new Garantipay();
+            garantipay.SetClientID(""); // Terminal no
+            garantipay.SetUsername(""); // Üye işyeri no
+            garantipay.SetPassword(""); // PROVAUT kullanıcı şifresi
+            garantipay.SetAmount("1.00", "TRY"); // İptal tutarı ve para birimi
+            garantipay.SetIPv4(""); // IP adresi (zorunlu)
+            garantipay.SetOrderID(""); // Sipariş numarası
+            var response = garantipay.Cancel();
+            if (response != null) {
+                Console.WriteLine(Garantipay.JsonString<Garantipay.Transaction>(response.Transaction));
+            }
+        }
+    }
+}
+```
