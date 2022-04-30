@@ -5,20 +5,41 @@ using System.Xml.Serialization;
 
 namespace Garantipay {
     public interface IGarantipay {
-        void SetClientId(string clientid);
+        void SetMode(string mode);
+        void SetClientID(string clientid);
         void SetUsername(string username);
         void SetPassword(string password);
-        void SetMode(string mode);
         void SetIPv4(string ipv4);
-        Garantipay.GVPSResponse Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency);
+        void SetOrderID(string orderid);
+        void SetAmount(string amount, string currency);
+        void SetInstallment(string installment);
+        void SetCardHolder(string firstname, string lastname);
+        void SetPhoneNumber(string phonenumber);
+        void SetCardNumber(string cardnumber);
+        void SetCardExpiry(string cardmonth, string cardyear);
+        void SetCardCode(string cardcode);
+        Garantipay.GVPSResponse Pay();
+        Garantipay.GVPSResponse Cancel();
+        Garantipay.GVPSResponse Refund();
     }
     public class Garantipay : IGarantipay {
         private string Endpoint { get; set; }
-        private string ClientId { get; set; }
+        private string Mode { get; set; }
+        private string ClientID { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
-        private string Mode { get; set; }
         private string IPv4 { get; set; }
+        private string OrderID { get; set; }
+        private string Amount { get; set; }
+        private string Currency { get; set; }
+        private string Installment { get; set; }
+        private string FirstName { get; set; }
+        private string LastName { get; set; }
+        private string PhoneNumber { get; set; }
+        private string CardNumber { get; set; }
+        private string CardMonth { get; set; }
+        private string CardYear { get; set; }
+        private string CardCode { get; set; }
         public Garantipay() {
             Endpoint = "https://sanalposprov.garanti.com.tr/VPServlet";
         }
@@ -203,8 +224,11 @@ namespace Garantipay {
             var sha1 = BitConverter.ToString(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data))).Replace("-", "").ToLowerInvariant();
             return sha1;
         }
-        public void SetClientId(string clientid) {
-            ClientId = clientid;
+        public void SetMode(string mode) {
+            Mode = mode;
+        }
+        public void SetClientID(string clientid) {
+            ClientID = clientid;
         }
         public void SetUsername(string username) {
             Username = username;
@@ -212,47 +236,157 @@ namespace Garantipay {
         public void SetPassword(string password) {
             Password = password;
         }
-        public void SetMode(string mode) {
-            Mode = mode;
-        }
         public void SetIPv4(string ipv4) {
             IPv4 = ipv4;
         }
-        public GVPSResponse Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency) {
+        public void SetOrderID(string orderid) {
+            OrderID = orderid;
+        }
+        public void SetAmount(string amount, string currency) {
+            Amount = amount;
+            Currency = currency;
+        }
+        public void SetInstallment(string installment) {
+            Installment = installment;
+        }
+        public void SetCardHolder(string firstname, string lastname) {
+            FirstName = firstname;
+            LastName = lastname;
+        }
+        public void SetPhoneNumber(string phonenumber) {
+            PhoneNumber = phonenumber;
+        }
+        public void SetCardNumber(string cardnumber) {
+            CardNumber = cardnumber;
+        }
+        public void SetCardExpiry(string cardmonth, string cardyear) {
+            CardMonth = cardmonth;
+            CardYear = cardyear;
+        }
+        public void SetCardCode(string cardcode) {
+            CardCode = cardcode;
+        }
+        public GVPSResponse Pay() {
             var data = new GVPSRequest {
                 Mode = Mode ?? "PROD",
                 Version = "v1.0",
                 Terminal = new Terminal {
-                    ID = ClientId,
+                    ID = ClientID,
                     MerchantID = Username,
                     UserID = "PROVAUT",
                     ProvUserID = "PROVAUT",
-                    HashData = SHA1Encrypt(ClientId + cardnumber + price.Replace(".", string.Empty) + SHA1Encrypt(Password + ClientId.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant()
+                    HashData = SHA1Encrypt(OrderID + ClientID + CardNumber + Amount.Replace(".", string.Empty) + SHA1Encrypt(Password + ClientID.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant()
                 },
                 Customer = new Customer {
-                    IPAddress = IPv4,
+                    IPAddress = IPv4
                 },
                 Card = new Card {
-                    Number = cardnumber,
-                    Expiry = cardmonth + cardyear,
-                    Code = cardcode,
+                    Number = CardNumber,
+                    Expiry = CardMonth + CardYear,
+                    Code = CardCode
                 },
                 Transaction = new Transaction {
                     Type = "sales",
-                    Amount = price.Replace(".", string.Empty),
-                    CurrencyCode = currency,
-                    InstallmentCnt = "",
-                    MotoInd = "H",
+                    Amount = Amount.Replace(".", string.Empty),
+                    CurrencyCode = Currency,
+                    InstallmentCnt = Installment,
+                    MotoInd = "H"
                 },
                 Order = new Order {
                     AddressList = new AddressList {
                         Address = new Address {
                             Type = "B",
-                            Name = firstname,
-                            LastName = lastname,
-                            PhoneNumber = phone ?? "",
+                            Name = FirstName,
+                            LastName = LastName,
+                            PhoneNumber = PhoneNumber ?? ""
                         }
                     }
+                }
+            };
+            var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
+            var gvpsresponse = new XmlSerializer(typeof(GVPSResponse));
+            var writer = new Writer();
+            var ns = new XmlSerializerNamespaces();
+            ns.Add(string.Empty, string.Empty);
+            gvpsrequest.Serialize(writer, data, ns);
+            try {
+                var http = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
+                };
+                var response = http.Send(request);
+                var result = (GVPSResponse)gvpsresponse.Deserialize(response.Content.ReadAsStream());
+                return result;
+            } catch (Exception err) {
+                if (err.InnerException != null) {
+                    Console.WriteLine(err.InnerException.Message);
+                } else {
+                    Console.WriteLine(err.Message);
+                }
+            }
+            return null;
+        }
+        public GVPSResponse Cancel() {
+            var data = new GVPSRequest {
+                Mode = Mode ?? "PROD",
+                Version = "v1.0",
+                Terminal = new Terminal {
+                    ID = ClientID,
+                    MerchantID = Username,
+                    UserID = "PROVRFN",
+                    ProvUserID = "PROVRFN",
+                    HashData = SHA1Encrypt(OrderID + ClientID + Amount.Replace(".", string.Empty) + SHA1Encrypt(Password + ClientID.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant()
+                },
+                Customer = new Customer {
+                    IPAddress = IPv4
+                },
+                Transaction = new Transaction {
+                    Type = "void",
+                    Amount = Amount.Replace(".", string.Empty),
+                    CurrencyCode = Currency
+                }
+            };
+            var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
+            var gvpsresponse = new XmlSerializer(typeof(GVPSResponse));
+            var writer = new Writer();
+            var ns = new XmlSerializerNamespaces();
+            ns.Add(string.Empty, string.Empty);
+            gvpsrequest.Serialize(writer, data, ns);
+            try {
+                var http = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
+                };
+                var response = http.Send(request);
+                var result = (GVPSResponse)gvpsresponse.Deserialize(response.Content.ReadAsStream());
+                return result;
+            } catch (Exception err) {
+                if (err.InnerException != null) {
+                    Console.WriteLine(err.InnerException.Message);
+                } else {
+                    Console.WriteLine(err.Message);
+                }
+            }
+            return null;
+        }
+        public GVPSResponse Refund() {
+            var data = new GVPSRequest {
+                Mode = Mode ?? "PROD",
+                Version = "v1.0",
+                Terminal = new Terminal {
+                    ID = ClientID,
+                    MerchantID = Username,
+                    UserID = "PROVRFN",
+                    ProvUserID = "PROVRFN",
+                    HashData = SHA1Encrypt(OrderID + ClientID + Amount.Replace(".", string.Empty) + SHA1Encrypt(Password + ClientID.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant()
+                },
+                Customer = new Customer {
+                    IPAddress = IPv4
+                },
+                Transaction = new Transaction {
+                    Type = "refund",
+                    Amount = Amount.Replace(".", string.Empty),
+                    CurrencyCode = Currency
                 }
             };
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
