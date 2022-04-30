@@ -27,7 +27,7 @@ namespace Garantipay {
             garantipay.SetIPv4(""); // Müşteri IP adresi (zorunlu)
             var response = garantipay.Pay();
             if (response != null) {
-                Console.WriteLine(Garantipay.JsonString<Garantipay.Transaction>(response.Transaction));
+                Console.WriteLine(Garantipay.JsonString<Garantipay.GVPSResponse>(response));
             }
         }
     }
@@ -48,7 +48,7 @@ namespace Garantipay {
             garantipay.SetOrderID(""); // Sipariş numarası
             var response = garantipay.Refund();
             if (response != null) {
-                Console.WriteLine(Garantipay.JsonString<Garantipay.Transaction>(response.Transaction));
+                Console.WriteLine(Garantipay.JsonString<Garantipay.GVPSResponse>(response));
             }
         }
     }
@@ -69,7 +69,7 @@ namespace Garantipay {
             garantipay.SetOrderID(""); // Sipariş numarası
             var response = garantipay.Cancel();
             if (response != null) {
-                Console.WriteLine(Garantipay.JsonString<Garantipay.Transaction>(response.Transaction));
+                Console.WriteLine(Garantipay.JsonString<Garantipay.GVPSResponse>(response));
             }
         }
     }
