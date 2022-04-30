@@ -24,7 +24,7 @@ namespace Garantipay {
             garantipay.SetInstallment(""); // Taksit sayısı (varsa)
             garantipay.SetCardHolder("Ad", "Soyad"); // Kart sahibi
             garantipay.SetPhoneNumber(""); // Müşteri telefon numarası
-            garantipay.SetIPv4(""); // Müşteri IP adresi (zorunlu)
+            garantipay.SetIPv4("1.2.3.4"); // Müşteri IP adresi (zorunlu)
             var response = garantipay.Pay();
             if (response != null) {
                 Console.WriteLine(Garantipay.JsonString<Garantipay.GVPSResponse>(response));
@@ -44,8 +44,8 @@ namespace Garantipay {
             garantipay.SetUsername(""); // Üye işyeri no
             garantipay.SetPassword(""); // PROVRFN kullanıcı şifresi
             garantipay.SetAmount("1.00", "TRY"); // İade tutarı ve para birimi
-            garantipay.SetIPv4(""); // IP adresi (zorunlu)
-            garantipay.SetOrderID(""); // Sipariş numarası
+            garantipay.SetIPv4("1.2.3.4"); // IP adresi (zorunlu)
+            garantipay.SetOrderID("SISTxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"); // Sipariş numarası
             var response = garantipay.Refund();
             if (response != null) {
                 Console.WriteLine(Garantipay.JsonString<Garantipay.GVPSResponse>(response));
@@ -65,8 +65,8 @@ namespace Garantipay {
             garantipay.SetUsername(""); // Üye işyeri no
             garantipay.SetPassword(""); // PROVRFN kullanıcı şifresi
             garantipay.SetAmount("1.00", "TRY"); // İptal tutarı ve para birimi
-            garantipay.SetIPv4(""); // IP adresi (zorunlu)
-            garantipay.SetOrderID(""); // Sipariş numarası
+            garantipay.SetIPv4("1.2.3.4"); // IP adresi (zorunlu)
+            garantipay.SetOrderID("SISTxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"); // Sipariş numarası
             var response = garantipay.Cancel();
             if (response != null) {
                 Console.WriteLine(Garantipay.JsonString<Garantipay.GVPSResponse>(response));
