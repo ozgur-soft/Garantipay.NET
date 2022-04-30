@@ -18,7 +18,7 @@ namespace Garantipay {
             garantipay.SetUsername(""); // Üye işyeri no
             garantipay.SetPassword(""); // PROVAUT kullanıcı şifresi
             garantipay.SetCardNumber("4242424242424242"); // Kart numarası
-            garantipay.SetCardExpiry("02", "20"); // Son kullanma tarihi (Ay ve Yılın son 2 hanesi) AAYY
+            garantipay.SetCardExpiry("02", "20"); // Son kullanma tarihi (Ay ve Yılın son 2 hanesi)
             garantipay.SetCardCode("123"); // Cvv2 Kodu (kartın arka yüzündeki 3 haneli numara)
             garantipay.SetAmount("1.00", "TRY"); // Satış tutarı ve para birimi
             garantipay.SetInstallment(""); // Taksit sayısı (varsa)
