@@ -5,7 +5,7 @@ Garanti Bankası Virtual POS API with .NET
 
 # Installation
 ```bash
-dotnet add package Garantipay --version 1.1.1
+dotnet add package Garantipay --version 1.1.2
 ```
 
 # Sanalpos satış işlemi
