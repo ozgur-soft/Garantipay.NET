@@ -317,16 +317,16 @@ namespace Garantipay {
             };
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
             var gvpsresponse = new XmlSerializer(typeof(GVPSResponse));
-            var writer = new Writer();
+            using var writer = new Writer();
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
             gvpsrequest.Serialize(writer, data, ns);
             try {
-                var http = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                using var http = new HttpClient();
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
                     Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
                 };
-                var response = http.Send(request);
+                using var response = http.Send(request);
                 var result = (GVPSResponse)gvpsresponse.Deserialize(response.Content.ReadAsStream());
                 return result;
             } catch (Exception err) {
@@ -363,16 +363,16 @@ namespace Garantipay {
             };
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
             var gvpsresponse = new XmlSerializer(typeof(GVPSResponse));
-            var writer = new Writer();
+            using var writer = new Writer();
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
             gvpsrequest.Serialize(writer, data, ns);
             try {
-                var http = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                using var http = new HttpClient();
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
                     Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
                 };
-                var response = http.Send(request);
+                using var response = http.Send(request);
                 var result = (GVPSResponse)gvpsresponse.Deserialize(response.Content.ReadAsStream());
                 return result;
             } catch (Exception err) {
@@ -409,16 +409,16 @@ namespace Garantipay {
             };
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
             var gvpsresponse = new XmlSerializer(typeof(GVPSResponse));
-            var writer = new Writer();
+            using var writer = new Writer();
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
             gvpsrequest.Serialize(writer, data, ns);
             try {
-                var http = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                using var http = new HttpClient();
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
                     Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
                 };
-                var response = http.Send(request);
+                using var response = http.Send(request);
                 var result = (GVPSResponse)gvpsresponse.Deserialize(response.Content.ReadAsStream());
                 return result;
             } catch (Exception err) {
