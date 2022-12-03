@@ -1,10 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>1.1.2</Version>
+		<Version>1.2.0</Version>
 		<RepositoryUrl>https://github.com/ozgur-soft/Garantipay.NET</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Authors>Özgür Yalçın</Authors>
 		<Company>Özgürsoft</Company>
 		<Copyright>2022 Özgürsoft</Copyright>
+		<Description>Garanti Bankası Virtual POS API with .NET</Description>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
