@@ -251,7 +251,7 @@ namespace Garantipay {
             data.Terminal.UserId = "PROVAUT";
             data.Terminal.ProvUserId = "PROVAUT";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
-            return Transaction(data);
+            return _Transaction(data);
         }
         public GVPSResponse Cancel(GVPSRequest data) {
             data.Version = "v1.0";
@@ -261,7 +261,7 @@ namespace Garantipay {
             data.Terminal.UserId = "PROVRFN";
             data.Terminal.ProvUserId = "PROVRFN";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
-            return Transaction(data);
+            return _Transaction(data);
         }
         public GVPSResponse Refund(GVPSRequest data) {
             data.Version = "v1.0";
@@ -271,9 +271,9 @@ namespace Garantipay {
             data.Terminal.UserId = "PROVRFN";
             data.Terminal.ProvUserId = "PROVRFN";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
-            return Transaction(data);
+            return _Transaction(data);
         }
-        public GVPSResponse Transaction(GVPSRequest data) {
+        private GVPSResponse _Transaction(GVPSRequest data) {
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
             var gvpsresponse = new XmlSerializer(typeof(GVPSResponse));
             using var writer = new Writer();
