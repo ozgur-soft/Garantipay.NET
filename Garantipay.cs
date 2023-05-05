@@ -7,8 +7,8 @@ using System.Xml.Serialization;
 
 namespace Garantipay {
     public enum MODE {
-        PROD,
-        TEST
+        Test,
+        Prod
     }
     public class Garantipay {
         private string Mode { get; set; }
@@ -27,13 +27,13 @@ namespace Garantipay {
         }
         public Garantipay(MODE mode) {
             Mode = mode switch {
-                MODE.PROD => "PROD",
-                MODE.TEST => "TEST",
+                MODE.Test => "TEST",
+                MODE.Prod => "PROD",
                 _ => null
             };
             Endpoint = mode switch {
-                MODE.PROD => "https://sanalposprov.garanti.com.tr/VPServlet",
-                MODE.TEST => "https://sanalposprovtest.garanti.com.tr/VPServlet",
+                MODE.Test => "https://sanalposprovtest.garanti.com.tr/VPServlet",
+                MODE.Prod => "https://sanalposprov.garanti.com.tr/VPServlet",
                 _ => null
             };
         }
