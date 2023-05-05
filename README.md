@@ -3,7 +3,7 @@ Garanti Bankası POS API with .NET
 
 # Installation
 ```bash
-dotnet add package Garantipay --version 1.3.0
+dotnet add package Garantipay --version 1.3.1
 ```
 
 # Satış
@@ -12,14 +12,14 @@ namespace Garantipay {
     internal class Program {
         static void Main(string[] args) {
             var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
-            garantipay.SetTerminalId(""); // Terminal no
-            garantipay.SetMerchantId(""); // Üye işyeri no
+            garantipay.SetTerminalId(""); // Terminal numarası
+            garantipay.SetMerchantId(""); // İşyeri numarası
             garantipay.SetUsername("PROVAUT"); // Kullanıcı adı
             garantipay.SetPassword(""); // Kullanıcı şifresi
             var request = new Garantipay.GVPSRequest();
             request.Card.SetCardNumber("4242424242424242"); // Kart numarası
-            request.Card.SetCardExpiry("02", "20"); // Son kullanma tarihi (Ay ve Yılın son 2 hanesi)
-            request.Card.SetCardCode("123"); // Cvv2 Kodu (kartın arka yüzündeki 3 haneli numara)
+            request.Card.SetCardExpiry("02", "20"); // Son kullanma tarihi - AA,YY
+            request.Card.SetCardCode("123"); // Kart arkasındaki 3 haneli numara
             request.Transaction.SetAmount("1.00", "TRY"); // Satış tutarı ve para birimi
             request.Transaction.SetInstallment("0"); // Taksit sayısı
             request.Customer.SetIPv4("1.2.3.4"); // Müşteri IP adresi
@@ -38,8 +38,8 @@ namespace Garantipay {
     internal class Program {
         static void Main(string[] args) {
             var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
-            garantipay.SetTerminalId(""); // Terminal no
-            garantipay.SetMerchantId(""); // Üye işyeri no
+            garantipay.SetTerminalId(""); // Terminal numarası
+            garantipay.SetMerchantId(""); // İşyeri numarası
             garantipay.SetUsername("PROVRFN"); // Kullanıcı adı
             garantipay.SetPassword(""); // Kullanıcı şifresi
             var request = new Garantipay.GVPSRequest();
@@ -61,8 +61,8 @@ namespace Garantipay {
     internal class Program {
         static void Main(string[] args) {
             var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
-            garantipay.SetTerminalId(""); // Terminal no
-            garantipay.SetMerchantId(""); // Üye işyeri no
+            garantipay.SetTerminalId(""); // Terminal numarası
+            garantipay.SetMerchantId(""); // İşyeri numarası
             garantipay.SetUsername("PROVRFN"); // Kullanıcı adı
             garantipay.SetPassword(""); // Kullanıcı şifresi
             var request = new Garantipay.GVPSRequest();
