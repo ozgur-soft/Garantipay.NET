@@ -6,204 +6,221 @@ using System.Xml;
 using System.Xml.Serialization;
 
 namespace Garantipay {
-    public interface IGarantipay {
-        void SetMode(string mode);
-        void SetClientID(string clientid);
-        void SetUsername(string username);
-        void SetPassword(string password);
-        void SetIPv4(string ipv4);
-        void SetOrderID(string orderid);
-        void SetAmount(string amount, string currency);
-        void SetInstallment(string installment);
-        void SetCardHolder(string firstname, string lastname);
-        void SetPhoneNumber(string phonenumber);
-        void SetCardNumber(string cardnumber);
-        void SetCardExpiry(string cardmonth, string cardyear);
-        void SetCardCode(string cardcode);
-        Garantipay.GVPSResponse Pay();
-        Garantipay.GVPSResponse Cancel();
-        Garantipay.GVPSResponse Refund();
+    public enum MODE {
+        PROD,
+        TEST
     }
-    public class Garantipay : IGarantipay {
-        private string Endpoint { get; set; }
+    public class Garantipay {
         private string Mode { get; set; }
-        private string ClientID { get; set; }
+        private string Endpoint { get; set; }
+        private string ClientId { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
-        private string IPv4 { get; set; }
-        private string OrderID { get; set; }
-        private string Amount { get; set; }
-        private string Currency { get; set; }
-        private string Installment { get; set; }
-        private string FirstName { get; set; }
-        private string LastName { get; set; }
-        private string PhoneNumber { get; set; }
-        private string CardNumber { get; set; }
-        private string CardMonth { get; set; }
-        private string CardYear { get; set; }
-        private string CardCode { get; set; }
-        public Garantipay() {
-            Endpoint = "https://sanalposprov.garanti.com.tr/VPServlet";
+        internal void SetClientId(string clientid) {
+            ClientId = clientid;
+        }
+        internal void SetUsername(string username) {
+            Username = username;
+        }
+        internal void SetPassword(string password) {
+            Password = password;
+        }
+        public Garantipay(MODE mode) {
+            Mode = mode switch {
+                MODE.PROD => "PROD",
+                MODE.TEST => "TEST",
+                _ => null
+            };
+            Endpoint = mode switch {
+                MODE.PROD => "https://sanalposprov.garanti.com.tr/VPServlet",
+                MODE.TEST => "https://sanalposprovtest.garanti.com.tr/VPServlet",
+                _ => null
+            };
         }
         [Serializable, XmlRoot("GVPSRequest")]
         public class GVPSRequest {
             [XmlElement("Mode", IsNullable = false)]
-            public string Mode { init; get; }
+            public string Mode { set; get; }
             [XmlElement("Version", IsNullable = false)]
-            public string Version { init; get; }
+            public string Version { set; get; }
             [XmlElement("ChannelCode", IsNullable = false)]
-            public string ChannelCode { init; get; }
+            public string ChannelCode { set; get; }
             [XmlElement("Terminal", IsNullable = false)]
-            public Terminal Terminal { init; get; }
+            public Terminal Terminal { set; get; }
             [XmlElement("Customer", IsNullable = false)]
-            public Customer Customer { init; get; }
+            public Customer Customer { set; get; }
             [XmlElement("Card", IsNullable = false)]
-            public Card Card { init; get; }
+            public Card Card { set; get; }
             [XmlElement("Order", IsNullable = false)]
-            public Order Order { init; get; }
+            public Order Order { set; get; }
             [XmlElement("Transaction", IsNullable = false)]
-            public Transaction Transaction { init; get; }
+            public Transaction Transaction { set; get; }
         }
-
         public class Terminal {
             [XmlElement("MerchantID", IsNullable = false)]
-            public string MerchantID { init; get; }
+            public string MerchantId { set; get; }
             [XmlElement("ProvUserID", IsNullable = false)]
-            public string ProvUserID { init; get; }
+            public string ProvUserId { set; get; }
             [XmlElement("UserID", IsNullable = false)]
-            public string UserID { init; get; }
+            public string UserId { set; get; }
             [XmlElement("ID", IsNullable = false)]
-            public string ID { init; get; }
+            public string Id { set; get; }
             [XmlElement("HashData", IsNullable = false)]
-            public string HashData { init; get; }
+            public string HashData { set; get; }
         }
-
         public class Card {
             [XmlElement("Number", IsNullable = false)]
-            public string Number { init; get; }
+            public string Number { set; get; }
             [XmlElement("ExpireDate", IsNullable = false)]
-            public string Expiry { init; get; }
+            public string Expiry { set; get; }
             [XmlElement("CVV2", IsNullable = false)]
-            public string Code { init; get; }
+            public string Code { set; get; }
+            public void SetCardNumber(string cardnumber) {
+                Number = cardnumber;
+            }
+            public void SetCardExpiry(string cardmonth, string cardyear) {
+                Expiry = cardmonth + cardyear;
+            }
+            public void SetCardCode(string cardcode) {
+                Code = cardcode;
+            }
         }
-
         public class Customer {
             [XmlElement("IPAddress", IsNullable = false)]
-            public string IPAddress { init; get; }
+            public string IPv4 { set; get; }
             [XmlElement("EmailAddress", IsNullable = false)]
-            public string EmailAddress { init; get; }
+            public string Email { set; get; }
+            public void SetIPv4(string ipv4) {
+                IPv4 = ipv4;
+            }
+            public void SetEmail(string email) {
+                Email = email;
+            }
         }
-
         public class Transaction {
             [XmlElement("Type", IsNullable = false)]
-            public string Type { init; get; }
+            public string Type { set; get; }
             [XmlElement("SubType", IsNullable = false)]
-            public string SubType { init; get; }
+            public string SubType { set; get; }
             [XmlElement("FirmCardNo", IsNullable = false)]
-            public string FirmCardNo { init; get; }
+            public string FirmCardNo { set; get; }
             [XmlElement("InstallmentCnt", IsNullable = false)]
-            public string InstallmentCnt { init; get; }
+            public string InstallmentCnt { set; get; }
             [XmlElement("Amount", IsNullable = false)]
-            public string Amount { init; get; }
+            public string Amount { set; get; }
             [XmlElement("CurrencyCode", IsNullable = false)]
-            public string CurrencyCode { init; get; }
+            public string Currency { set; get; }
             [XmlElement("CardholderPresentCode", IsNullable = false)]
-            public string CardholderPresentCode { init; get; }
+            public string CardholderPresentCode { set; get; }
             [XmlElement("MotoInd", IsNullable = false)]
-            public string MotoInd { init; get; }
+            public string MotoInd { set; get; }
             [XmlElement("AuthCode", IsNullable = false)]
-            public string AuthCode { init; get; }
+            public string AuthCode { set; get; }
             [XmlElement("RetrefNum", IsNullable = false)]
-            public string RetrefNum { init; get; }
+            public string RetrefNum { set; get; }
             [XmlElement("BatchNum", IsNullable = false)]
-            public string BatchNum { init; get; }
+            public string BatchNum { set; get; }
             [XmlElement("SequenceNum", IsNullable = false)]
-            public string SequenceNum { init; get; }
+            public string SequenceNum { set; get; }
             [XmlElement("ProvDate", IsNullable = false)]
-            public string ProvDate { init; get; }
+            public string ProvDate { set; get; }
             [XmlElement("CardNumberMasked", IsNullable = false)]
-            public string CardNumberMasked { init; get; }
+            public string CardNumberMasked { set; get; }
             [XmlElement("CardHolderName", IsNullable = false)]
-            public string CardHolderName { init; get; }
+            public string CardHolderName { set; get; }
             [XmlElement("CardType", IsNullable = false)]
-            public string CardType { init; get; }
+            public string CardType { set; get; }
             [XmlElement("HashData", IsNullable = false)]
-            public string HashData { init; get; }
+            public string HashData { set; get; }
             [XmlElement("Description", IsNullable = false)]
-            public string Description { init; get; }
+            public string Description { set; get; }
             [XmlElement("Secure3D", IsNullable = false)]
-            public Secure3D Secure3D { init; get; }
+            public Secure3D Secure3D { set; get; }
             [XmlElement("Response", IsNullable = false)]
-            public Response Response { init; get; }
+            public Response Response { set; get; }
+            public void SetAmount(string amount, string currency) {
+                Amount = amount.Replace(".", "");
+                Currency = currency switch {
+                    "TRY" => "949",
+                    "YTL" => "949",
+                    "TRL" => "949",
+                    "TL" => "949",
+                    "USD" => "840",
+                    "EUR" => "978",
+                    "GBP" => "826",
+                    "JPY" => "392",
+                    _ => currency
+                };
+            }
+            public void SetInstallment(string installment) {
+                InstallmentCnt = installment;
+            }
         }
-
         public class Secure3D {
             [XmlElement("AuthenticationCode", IsNullable = false)]
-            public string AuthenticationCode { init; get; }
+            public string AuthenticationCode { set; get; }
             [XmlElement("SecurityLevel", IsNullable = false)]
-            public string SecurityLevel { init; get; }
+            public string SecurityLevel { set; get; }
             [XmlElement("TxnID", IsNullable = false)]
-            public string TxnID { init; get; }
+            public string TxnId { set; get; }
             [XmlElement("Md", IsNullable = false)]
-            public string Md { init; get; }
+            public string Md { set; get; }
         }
-
         public class Order {
             [XmlElement("OrderID", IsNullable = false)]
-            public string OrderID { init; get; }
+            public string OrderId { set; get; }
             [XmlElement("GroupID", IsNullable = false)]
-            public string GroupID { init; get; }
+            public string GroupId { set; get; }
             [XmlElement("AddressList", IsNullable = false)]
-            public AddressList AddressList { init; get; }
+            public AddressList AddressList { set; get; }
+            public void SetOrderId(string orderid) {
+                OrderId = orderid;
+            }
         }
-
         public class AddressList {
             [XmlElement("Address", IsNullable = false)]
-            public Address Address { init; get; }
+            public Address Address { set; get; }
         }
-
         public class Address {
             [XmlElement("Type", IsNullable = false)]
-            public string Type { init; get; }
+            public string Type { set; get; }
             [XmlElement("Name", IsNullable = false)]
-            public string Name { init; get; }
+            public string Name { set; get; }
             [XmlElement("LastName", IsNullable = false)]
-            public string LastName { init; get; }
+            public string LastName { set; get; }
             [XmlElement("Company", IsNullable = false)]
-            public string Company { init; get; }
+            public string Company { set; get; }
             [XmlElement("Text", IsNullable = false)]
-            public string Text { init; get; }
+            public string Text { set; get; }
             [XmlElement("Country", IsNullable = false)]
-            public string Country { init; get; }
+            public string Country { set; get; }
             [XmlElement("City", IsNullable = false)]
-            public string City { init; get; }
+            public string City { set; get; }
             [XmlElement("District", IsNullable = false)]
-            public string District { init; get; }
+            public string District { set; get; }
             [XmlElement("PostalCode", IsNullable = false)]
-            public string PostalCode { init; get; }
+            public string PostalCode { set; get; }
             [XmlElement("PhoneNumber", IsNullable = false)]
-            public string PhoneNumber { init; get; }
+            public string PhoneNumber { set; get; }
             [XmlElement("GsmNumber", IsNullable = false)]
-            public string GsmNumber { init; get; }
+            public string GsmNumber { set; get; }
             [XmlElement("FaxNumber", IsNullable = false)]
-            public string FaxNumber { init; get; }
+            public string FaxNumber { set; get; }
         }
-
         public class Response {
             [XmlElement("Source", IsNullable = false)]
-            public string Source { init; get; }
+            public string Source { set; get; }
             [XmlElement("Code", IsNullable = false)]
-            public string Code { init; get; }
+            public string Code { set; get; }
             [XmlElement("ReasonCode", IsNullable = false)]
-            public string ReasonCode { init; get; }
+            public string ReasonCode { set; get; }
             [XmlElement("Message", IsNullable = false)]
-            public string Message { init; get; }
+            public string Message { set; get; }
             [XmlElement("ErrorMsg", IsNullable = false)]
-            public string ErrorMsg { init; get; }
+            public string ErrorMsg { set; get; }
             [XmlElement("SysErrMsg", IsNullable = false)]
-            public string SysErrMsg { init; get; }
+            public string SysErrMsg { set; get; }
         }
-
         [Serializable, XmlRoot("GVPSResponse")]
         public class GVPSResponse {
             [XmlElement("Mode", IsNullable = false)]
@@ -226,187 +243,37 @@ namespace Garantipay {
             var sha1 = BitConverter.ToString(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data))).Replace("-", "").ToLowerInvariant();
             return sha1;
         }
-        public void SetMode(string mode) {
-            Mode = mode;
+        public GVPSResponse Auth(GVPSRequest data) {
+            data.Version = "v1.0";
+            data.Transaction.Type = "sales";
+            data.Terminal.Id = ClientId;
+            data.Terminal.MerchantId = Username;
+            data.Terminal.UserId = "PROVAUT";
+            data.Terminal.ProvUserId = "PROVAUT";
+            data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            return Transaction(data);
         }
-        public void SetClientID(string clientid) {
-            ClientID = clientid;
+        public GVPSResponse Cancel(GVPSRequest data) {
+            data.Version = "v1.0";
+            data.Transaction.Type = "void";
+            data.Terminal.Id = ClientId;
+            data.Terminal.MerchantId = Username;
+            data.Terminal.UserId = "PROVRFN";
+            data.Terminal.ProvUserId = "PROVRFN";
+            data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            return Transaction(data);
         }
-        public void SetUsername(string username) {
-            Username = username;
+        public GVPSResponse Refund(GVPSRequest data) {
+            data.Version = "v1.0";
+            data.Transaction.Type = "refund";
+            data.Terminal.Id = ClientId;
+            data.Terminal.MerchantId = Username;
+            data.Terminal.UserId = "PROVRFN";
+            data.Terminal.ProvUserId = "PROVRFN";
+            data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            return Transaction(data);
         }
-        public void SetPassword(string password) {
-            Password = password;
-        }
-        public void SetIPv4(string ipv4) {
-            IPv4 = ipv4;
-        }
-        public void SetOrderID(string orderid) {
-            OrderID = orderid;
-        }
-        public void SetAmount(string amount, string currency) {
-            Amount = amount;
-            Currency = currency switch {
-                "TRY" => "949",
-                "YTL" => "949",
-                "TRL" => "949",
-                "TL" => "949",
-                "USD" => "840",
-                "EUR" => "978",
-                "GBP" => "826",
-                "JPY" => "392",
-                _ => currency
-            };
-        }
-        public void SetInstallment(string installment) {
-            Installment = installment;
-        }
-        public void SetCardHolder(string firstname, string lastname) {
-            FirstName = firstname;
-            LastName = lastname;
-        }
-        public void SetPhoneNumber(string phonenumber) {
-            PhoneNumber = phonenumber;
-        }
-        public void SetCardNumber(string cardnumber) {
-            CardNumber = cardnumber;
-        }
-        public void SetCardExpiry(string cardmonth, string cardyear) {
-            CardMonth = cardmonth;
-            CardYear = cardyear;
-        }
-        public void SetCardCode(string cardcode) {
-            CardCode = cardcode;
-        }
-        public GVPSResponse Pay() {
-            var data = new GVPSRequest {
-                Mode = Mode ?? "PROD",
-                Version = "v1.0",
-                Terminal = new Terminal {
-                    ID = ClientID,
-                    MerchantID = Username,
-                    UserID = "PROVAUT",
-                    ProvUserID = "PROVAUT",
-                    HashData = SHA1Encrypt(OrderID + ClientID + CardNumber + Amount.Replace(".", string.Empty) + SHA1Encrypt(Password + ClientID.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant()
-                },
-                Customer = new Customer {
-                    IPAddress = IPv4
-                },
-                Card = new Card {
-                    Number = CardNumber,
-                    Expiry = CardMonth + CardYear,
-                    Code = CardCode
-                },
-                Transaction = new Transaction {
-                    Type = "sales",
-                    Amount = Amount.Replace(".", string.Empty),
-                    CurrencyCode = Currency,
-                    InstallmentCnt = Installment,
-                    MotoInd = "H"
-                },
-                Order = new Order {
-                    AddressList = new AddressList {
-                        Address = new Address {
-                            Type = "B",
-                            Name = FirstName,
-                            LastName = LastName,
-                            PhoneNumber = PhoneNumber ?? ""
-                        }
-                    }
-                }
-            };
-            var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
-            var gvpsresponse = new XmlSerializer(typeof(GVPSResponse));
-            using var writer = new Writer();
-            var ns = new XmlSerializerNamespaces();
-            ns.Add(string.Empty, string.Empty);
-            gvpsrequest.Serialize(writer, data, ns);
-            try {
-                using var http = new HttpClient();
-                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
-                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
-                };
-                using var response = http.Send(request);
-                var result = (GVPSResponse)gvpsresponse.Deserialize(response.Content.ReadAsStream());
-                return result;
-            } catch (Exception err) {
-                if (err.InnerException != null) {
-                    Console.WriteLine(err.InnerException.Message);
-                } else {
-                    Console.WriteLine(err.Message);
-                }
-            }
-            return null;
-        }
-        public GVPSResponse Cancel() {
-            var data = new GVPSRequest {
-                Mode = Mode ?? "PROD",
-                Version = "v1.0",
-                Terminal = new Terminal {
-                    ID = ClientID,
-                    MerchantID = Username,
-                    UserID = "PROVRFN",
-                    ProvUserID = "PROVRFN",
-                    HashData = SHA1Encrypt(OrderID + ClientID + Amount.Replace(".", string.Empty) + SHA1Encrypt(Password + ClientID.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant()
-                },
-                Customer = new Customer {
-                    IPAddress = IPv4
-                },
-                Transaction = new Transaction {
-                    Type = "void",
-                    Amount = Amount.Replace(".", string.Empty),
-                    CurrencyCode = Currency
-                },
-                Order = new Order {
-                    OrderID = OrderID
-                }
-            };
-            var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
-            var gvpsresponse = new XmlSerializer(typeof(GVPSResponse));
-            using var writer = new Writer();
-            var ns = new XmlSerializerNamespaces();
-            ns.Add(string.Empty, string.Empty);
-            gvpsrequest.Serialize(writer, data, ns);
-            try {
-                using var http = new HttpClient();
-                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
-                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
-                };
-                using var response = http.Send(request);
-                var result = (GVPSResponse)gvpsresponse.Deserialize(response.Content.ReadAsStream());
-                return result;
-            } catch (Exception err) {
-                if (err.InnerException != null) {
-                    Console.WriteLine(err.InnerException.Message);
-                } else {
-                    Console.WriteLine(err.Message);
-                }
-            }
-            return null;
-        }
-        public GVPSResponse Refund() {
-            var data = new GVPSRequest {
-                Mode = Mode ?? "PROD",
-                Version = "v1.0",
-                Terminal = new Terminal {
-                    ID = ClientID,
-                    MerchantID = Username,
-                    UserID = "PROVRFN",
-                    ProvUserID = "PROVRFN",
-                    HashData = SHA1Encrypt(OrderID + ClientID + Amount.Replace(".", string.Empty) + SHA1Encrypt(Password + ClientID.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant()
-                },
-                Customer = new Customer {
-                    IPAddress = IPv4
-                },
-                Transaction = new Transaction {
-                    Type = "refund",
-                    Amount = Amount.Replace(".", string.Empty),
-                    CurrencyCode = Currency
-                },
-                Order = new Order {
-                    OrderID = OrderID
-                }
-            };
+        public GVPSResponse Transaction(GVPSRequest data) {
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
             var gvpsresponse = new XmlSerializer(typeof(GVPSResponse));
             using var writer = new Writer();
