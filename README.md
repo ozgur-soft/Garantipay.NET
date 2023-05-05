@@ -14,7 +14,8 @@ namespace Garantipay {
             var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
             garantipay.SetTerminalId(""); // Terminal no
             garantipay.SetMerchantId(""); // Üye işyeri no
-            garantipay.SetPassword(""); // PROVAUT kullanıcı şifresi
+            garantipay.SetUsername("PROVAUT"); // Kullanıcı adı
+            garantipay.SetPassword(""); // Kullanıcı şifresi
             var request = new Garantipay.GVPSRequest();
             request.Card.SetCardNumber("4242424242424242"); // Kart numarası
             request.Card.SetCardExpiry("02", "20"); // Son kullanma tarihi (Ay ve Yılın son 2 hanesi)
@@ -39,7 +40,8 @@ namespace Garantipay {
             var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
             garantipay.SetTerminalId(""); // Terminal no
             garantipay.SetMerchantId(""); // Üye işyeri no
-            garantipay.SetPassword(""); // PROVRFN kullanıcı şifresi
+            garantipay.SetUsername("PROVRFN"); // Kullanıcı adı
+            garantipay.SetPassword(""); // Kullanıcı şifresi
             var request = new Garantipay.GVPSRequest();
             request.Transaction.SetAmount("1.00", "TRY"); // İade tutarı ve para birimi
             request.Customer.SetIPv4("1.2.3.4"); // IP adresi (zorunlu)
@@ -61,7 +63,8 @@ namespace Garantipay {
             var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
             garantipay.SetTerminalId(""); // Terminal no
             garantipay.SetMerchantId(""); // Üye işyeri no
-            garantipay.SetPassword(""); // PROVRFN kullanıcı şifresi
+            garantipay.SetUsername("PROVRFN"); // Kullanıcı adı
+            garantipay.SetPassword(""); // Kullanıcı şifresi
             var request = new Garantipay.GVPSRequest();
             request.Transaction.SetAmount("1.00", "TRY"); // İptal tutarı ve para birimi
             request.Customer.SetIPv4("1.2.3.4"); // IP adresi (zorunlu)
