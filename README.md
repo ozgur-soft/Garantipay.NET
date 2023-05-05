@@ -6,7 +6,7 @@ Garanti Bankası POS API with .NET
 dotnet add package Garantipay --version 1.3.0
 ```
 
-# Sanalpos satış işlemi
+# Satış
 ```c#
 namespace Garantipay {
     internal class Program {
@@ -31,7 +31,7 @@ namespace Garantipay {
 }
 ```
 
-# Sanalpos iade işlemi
+# İade
 ```c#
 namespace Garantipay {
     internal class Program {
@@ -53,7 +53,7 @@ namespace Garantipay {
 }
 ```
 
-# Sanalpos iptal işlemi
+# İptal
 ```c#
 namespace Garantipay {
     internal class Program {
