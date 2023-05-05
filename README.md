@@ -20,7 +20,8 @@ namespace Garantipay {
             request.Card.SetCardExpiry("02", "20"); // Son kullanma tarihi (Ay ve Yılın son 2 hanesi)
             request.Card.SetCardCode("123"); // Cvv2 Kodu (kartın arka yüzündeki 3 haneli numara)
             request.Transaction.SetAmount("1.00", "TRY"); // Satış tutarı ve para birimi
-            request.Transaction.SetInstallment(""); // Taksit sayısı
+            request.Transaction.SetInstallment("0"); // Taksit sayısı
+            request.Order.SetOrderId("SISTxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"); // Sipariş numarası
             request.Customer.SetIPv4("1.2.3.4"); // Müşteri IP adresi
             var response = garantipay.Auth(request);
             if (response != null) {
