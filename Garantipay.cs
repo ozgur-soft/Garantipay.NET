@@ -231,8 +231,6 @@ namespace Garantipay {
         }
         [Serializable, XmlRoot("GVPSResponse")]
         public class GVPSResponse {
-            [XmlElement("Mode", IsNullable = false)]
-            public string Mode { init; get; }
             [XmlElement("Terminal", IsNullable = false)]
             public Terminal Terminal { init; get; }
             [XmlElement("Customer", IsNullable = false)]
