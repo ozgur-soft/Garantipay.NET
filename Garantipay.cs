@@ -17,16 +17,16 @@ namespace Garantipay {
         private string MerchantId { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
-        internal void SetTerminalId(string terminalid) {
+        public void SetTerminalId(string terminalid) {
             TerminalId = terminalid;
         }
-        internal void SetMerchantId(string merchantid) {
+        public void SetMerchantId(string merchantid) {
             MerchantId = merchantid;
         }
-        internal void SetUsername(string username) {
+        public void SetUsername(string username) {
             Username = username;
         }
-        internal void SetPassword(string password) {
+        public void SetPassword(string password) {
             Password = password;
         }
         public Garantipay(MODE mode) {
