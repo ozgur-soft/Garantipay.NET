@@ -287,9 +287,7 @@ namespace Garantipay {
             gvpsrequest.Serialize(writer, data, ns);
             try {
                 using var http = new HttpClient();
-                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
-                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
-                };
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) { Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml") };
                 using var response = http.Send(request);
                 var result = (GVPSResponse)gvpsresponse.Deserialize(response.Content.ReadAsStream());
                 return result;
