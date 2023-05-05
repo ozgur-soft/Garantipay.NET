@@ -253,6 +253,26 @@ namespace Garantipay {
             var sha1 = BitConverter.ToString(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data))).Replace("-", "").ToLowerInvariant();
             return sha1;
         }
+        public GVPSResponse PreAuth(GVPSRequest data) {
+            data.Mode = Mode;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
+            data.Transaction.Type = "preauth";
+            data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            return _Transaction(data);
+        }
+        public GVPSResponse PostAuth(GVPSRequest data) {
+            data.Mode = Mode;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
+            data.Transaction.Type = "postauth";
+            data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            return _Transaction(data);
+        }
         public GVPSResponse Auth(GVPSRequest data) {
             data.Mode = Mode;
             data.Terminal.Id = TerminalId;
@@ -263,17 +283,6 @@ namespace Garantipay {
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
             return _Transaction(data);
         }
-        public GVPSResponse Cancel(GVPSRequest data) {
-            data.Mode = Mode;
-            data.Terminal.Id = TerminalId;
-            data.Terminal.MerchantId = MerchantId;
-            data.Terminal.UserId = Username;
-            data.Terminal.ProvUserId = Username;
-            data.Transaction.Type = "void";
-            data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
-            data.Card = null;
-            return _Transaction(data);
-        }
         public GVPSResponse Refund(GVPSRequest data) {
             data.Mode = Mode;
             data.Terminal.Id = TerminalId;
@@ -281,6 +290,17 @@ namespace Garantipay {
             data.Terminal.UserId = Username;
             data.Terminal.ProvUserId = Username;
             data.Transaction.Type = "refund";
+            data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            data.Card = null;
+            return _Transaction(data);
+        }
+        public GVPSResponse Cancel(GVPSRequest data) {
+            data.Mode = Mode;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
+            data.Transaction.Type = "void";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
             data.Card = null;
             return _Transaction(data);
