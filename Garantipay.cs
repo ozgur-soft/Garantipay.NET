@@ -261,23 +261,23 @@ namespace Garantipay {
             return _Transaction(data);
         }
         public GVPSResponse Cancel(GVPSRequest data) {
-            data.Card = null;
             data.Transaction.Type = "void";
             data.Terminal.Id = ClientId;
             data.Terminal.MerchantId = Username;
             data.Terminal.UserId = "PROVRFN";
             data.Terminal.ProvUserId = "PROVRFN";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            data.Card = null;
             return _Transaction(data);
         }
         public GVPSResponse Refund(GVPSRequest data) {
-            data.Card = null;
             data.Transaction.Type = "refund";
             data.Terminal.Id = ClientId;
             data.Terminal.MerchantId = Username;
             data.Terminal.UserId = "PROVRFN";
             data.Terminal.ProvUserId = "PROVRFN";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            data.Card = null;
             return _Transaction(data);
         }
         private GVPSResponse _Transaction(GVPSRequest data) {
