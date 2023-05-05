@@ -55,6 +55,14 @@ namespace Garantipay {
             public Order Order { set; get; }
             [XmlElement("Transaction", IsNullable = false)]
             public Transaction Transaction { set; get; }
+            public GVPSRequest() {
+                Version = "v1.0";
+                Terminal = new Terminal();
+                Customer = new Customer();
+                Card = new Card();
+                Order = new Order();
+                Transaction = new Transaction();
+            }
         }
         public class Terminal {
             [XmlElement("MerchantID", IsNullable = false)]
@@ -244,7 +252,6 @@ namespace Garantipay {
             return sha1;
         }
         public GVPSResponse Auth(GVPSRequest data) {
-            data.Version = "v1.0";
             data.Transaction.Type = "sales";
             data.Terminal.Id = ClientId;
             data.Terminal.MerchantId = Username;
@@ -254,7 +261,6 @@ namespace Garantipay {
             return _Transaction(data);
         }
         public GVPSResponse Cancel(GVPSRequest data) {
-            data.Version = "v1.0";
             data.Transaction.Type = "void";
             data.Terminal.Id = ClientId;
             data.Terminal.MerchantId = Username;
@@ -264,7 +270,6 @@ namespace Garantipay {
             return _Transaction(data);
         }
         public GVPSResponse Refund(GVPSRequest data) {
-            data.Version = "v1.0";
             data.Transaction.Type = "refund";
             data.Terminal.Id = ClientId;
             data.Terminal.MerchantId = Username;
