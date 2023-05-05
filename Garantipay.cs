@@ -13,14 +13,14 @@ namespace Garantipay {
     public class Garantipay {
         private string Mode { get; set; }
         private string Endpoint { get; set; }
-        private string ClientId { get; set; }
-        private string Username { get; set; }
+        private string TerminalId { get; set; }
+        private string MerchantId { get; set; }
         private string Password { get; set; }
-        internal void SetClientId(string clientid) {
-            ClientId = clientid;
+        internal void SetTerminalId(string terminalid) {
+            TerminalId = terminalid;
         }
-        internal void SetUsername(string username) {
-            Username = username;
+        internal void SetMerchantId(string merchantid) {
+            MerchantId = merchantid;
         }
         internal void SetPassword(string password) {
             Password = password;
@@ -253,8 +253,8 @@ namespace Garantipay {
         }
         public GVPSResponse Auth(GVPSRequest data) {
             data.Transaction.Type = "sales";
-            data.Terminal.Id = ClientId;
-            data.Terminal.MerchantId = Username;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
             data.Terminal.UserId = "PROVAUT";
             data.Terminal.ProvUserId = "PROVAUT";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
@@ -262,8 +262,8 @@ namespace Garantipay {
         }
         public GVPSResponse Cancel(GVPSRequest data) {
             data.Transaction.Type = "void";
-            data.Terminal.Id = ClientId;
-            data.Terminal.MerchantId = Username;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
             data.Terminal.UserId = "PROVRFN";
             data.Terminal.ProvUserId = "PROVRFN";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
@@ -272,8 +272,8 @@ namespace Garantipay {
         }
         public GVPSResponse Refund(GVPSRequest data) {
             data.Transaction.Type = "refund";
-            data.Terminal.Id = ClientId;
-            data.Terminal.MerchantId = Username;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
             data.Terminal.UserId = "PROVRFN";
             data.Terminal.ProvUserId = "PROVRFN";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
