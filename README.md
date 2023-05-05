@@ -12,8 +12,8 @@ namespace Garantipay {
     internal class Program {
         static void Main(string[] args) {
             var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
-            garantipay.SetClientId(""); // Terminal no
-            garantipay.SetUsername(""); // Üye işyeri no
+            garantipay.SetTerminalId(""); // Terminal no
+            garantipay.SetMerchantId(""); // Üye işyeri no
             garantipay.SetPassword(""); // PROVAUT kullanıcı şifresi
             var request = new Garantipay.GVPSRequest();
             request.Card.SetCardNumber("4242424242424242"); // Kart numarası
@@ -38,8 +38,8 @@ namespace Garantipay {
     internal class Program {
         static void Main(string[] args) {
             var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
-            garantipay.SetClientId(""); // Terminal no
-            garantipay.SetUsername(""); // Üye işyeri no
+            garantipay.SetTerminalId(""); // Terminal no
+            garantipay.SetMerchantId(""); // Üye işyeri no
             garantipay.SetPassword(""); // PROVRFN kullanıcı şifresi
             var request = new Garantipay.GVPSRequest();
             request.Transaction.SetAmount("1.00", "TRY"); // İade tutarı ve para birimi
@@ -60,8 +60,8 @@ namespace Garantipay {
     internal class Program {
         static void Main(string[] args) {
             var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
-            garantipay.SetClientId(""); // Terminal no
-            garantipay.SetUsername(""); // Üye işyeri no
+            garantipay.SetTerminalId(""); // Terminal no
+            garantipay.SetMerchantId(""); // Üye işyeri no
             garantipay.SetPassword(""); // PROVRFN kullanıcı şifresi
             var request = new Garantipay.GVPSRequest();
             request.Transaction.SetAmount("1.00", "TRY"); // İptal tutarı ve para birimi
