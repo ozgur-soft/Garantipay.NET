@@ -15,12 +15,16 @@ namespace Garantipay {
         private string Endpoint { get; set; }
         private string TerminalId { get; set; }
         private string MerchantId { get; set; }
+        private string Username { get; set; }
         private string Password { get; set; }
         internal void SetTerminalId(string terminalid) {
             TerminalId = terminalid;
         }
         internal void SetMerchantId(string merchantid) {
             MerchantId = merchantid;
+        }
+        internal void SetUsername(string username) {
+            Username = username;
         }
         internal void SetPassword(string password) {
             Password = password;
@@ -253,8 +257,8 @@ namespace Garantipay {
             data.Mode = Mode;
             data.Terminal.Id = TerminalId;
             data.Terminal.MerchantId = MerchantId;
-            data.Terminal.UserId = "PROVAUT";
-            data.Terminal.ProvUserId = "PROVAUT";
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
             data.Transaction.Type = "sales";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
             return _Transaction(data);
@@ -263,8 +267,8 @@ namespace Garantipay {
             data.Mode = Mode;
             data.Terminal.Id = TerminalId;
             data.Terminal.MerchantId = MerchantId;
-            data.Terminal.UserId = "PROVRFN";
-            data.Terminal.ProvUserId = "PROVRFN";
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
             data.Transaction.Type = "void";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
             data.Card = null;
@@ -274,8 +278,8 @@ namespace Garantipay {
             data.Mode = Mode;
             data.Terminal.Id = TerminalId;
             data.Terminal.MerchantId = MerchantId;
-            data.Terminal.UserId = "PROVRFN";
-            data.Terminal.ProvUserId = "PROVRFN";
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
             data.Transaction.Type = "refund";
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
             data.Card = null;
