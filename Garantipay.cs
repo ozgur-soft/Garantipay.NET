@@ -261,6 +261,7 @@ namespace Garantipay {
             return _Transaction(data);
         }
         public GVPSResponse Cancel(GVPSRequest data) {
+            data.Card = null;
             data.Transaction.Type = "void";
             data.Terminal.Id = ClientId;
             data.Terminal.MerchantId = Username;
@@ -270,6 +271,7 @@ namespace Garantipay {
             return _Transaction(data);
         }
         public GVPSResponse Refund(GVPSRequest data) {
+            data.Card = null;
             data.Transaction.Type = "refund";
             data.Terminal.Id = ClientId;
             data.Terminal.MerchantId = Username;
