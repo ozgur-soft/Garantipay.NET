@@ -17,6 +17,7 @@ namespace Garantipay {
         private string MerchantId { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
+        private string StoreKey { get; set; }
         private string Endpoint { get; set; }
         public void SetTerminalId(string terminalid) {
             TerminalId = terminalid;
@@ -29,6 +30,9 @@ namespace Garantipay {
         }
         public void SetPassword(string password) {
             Password = password;
+        }
+        public void SetStoreKey(string storekey) {
+            StoreKey = storekey;
         }
         public Garantipay(MODE mode) {
             Mode = mode switch {
@@ -374,7 +378,7 @@ namespace Garantipay {
             data.Transaction.Type = "sales";
             data.Transaction.MotoInd = "N";
             data.Transaction.Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-            data.Terminal.HashData = SHA1Encrypt(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            data.Terminal.HashData = SHA1Encrypt(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + BitConverter.ToString(Encoding.ASCII.GetBytes(StoreKey)).Replace("-", "").ToUpperInvariant() + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
             var form = new Dictionary<string, string>();
             var root_elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
             foreach (var element in root_elements) {
