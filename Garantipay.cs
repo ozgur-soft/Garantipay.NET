@@ -311,6 +311,9 @@ namespace Garantipay {
         public class Writer : StringWriter {
             public override Encoding Encoding => Encoding.UTF8;
         }
+        public static string Json<T>(T data) where T : class {
+            return JsonSerializer.Serialize(data, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, WriteIndented = true });
+        }
         public static string Hex(byte[] data) {
             var hex = BitConverter.ToString(data).Replace("-", "").ToUpperInvariant();
             return hex;
@@ -459,9 +462,6 @@ namespace Garantipay {
                 }
             }
             return null;
-        }
-        public static string JsonString<T>(T data) where T : class {
-            return JsonSerializer.Serialize(data, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, WriteIndented = true });
         }
     }
 }
