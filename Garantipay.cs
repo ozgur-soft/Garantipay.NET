@@ -63,10 +63,13 @@ namespace Garantipay {
             [XmlElement("Transaction", IsNullable = false)]
             public Transaction Transaction { set; get; }
             [FormElement("companyname")]
+            [XmlIgnore]
             public string CompanyName { set; get; }
             [FormElement("refreshtime")]
+            [XmlIgnore]
             public string RefreshTime { set; get; }
             [FormElement("lang")]
+            [XmlIgnore]
             public string Lang { set; get; }
             public GVPSRequest() {
                 Version = "v1.0";
@@ -94,6 +97,7 @@ namespace Garantipay {
             [XmlElement("HashData", IsNullable = false)]
             public string HashData { set; get; }
             [FormElement("secure3dsecuritylevel")]
+            [XmlIgnore]
             public string Level { set; get; }
         }
         public class Card {
@@ -103,8 +107,10 @@ namespace Garantipay {
             [XmlElement("ExpireDate", IsNullable = false)]
             public string Expiry { set; get; }
             [FormElement("cardexpiredatemonth")]
+            [XmlIgnore]
             public string CardMonth { set; get; }
             [FormElement("cardexpiredateyear")]
+            [XmlIgnore]
             public string CardYear { set; get; }
             [FormElement("cardcvv2")]
             [XmlElement("CVV2", IsNullable = false)]
@@ -183,10 +189,13 @@ namespace Garantipay {
             [XmlElement("Response", IsNullable = false)]
             public Response Response { set; get; }
             [FormElement("txntimestamp")]
+            [XmlIgnore]
             public string Timestamp { set; get; }
             [FormElement("successurl")]
+            [XmlIgnore]
             public string SuccessUrl { set; get; }
             [FormElement("errorurl")]
+            [XmlIgnore]
             public string ErrorUrl { set; get; }
             public void SetAmount(string amount, string currency) {
                 Amount = amount.Replace(".", "");
