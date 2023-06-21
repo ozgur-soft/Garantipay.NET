@@ -375,7 +375,7 @@ namespace Garantipay {
             data.Card = null;
             return _Transaction(data);
         }
-        public Dictionary<string, string> AuthForm(GVPSRequest data) {
+        public Dictionary<string, string> Auth3d(GVPSRequest data) {
             data.RefreshTime = "0";
             data.Mode = Mode;
             data.Terminal.Id = TerminalId;
