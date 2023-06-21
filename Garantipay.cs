@@ -352,7 +352,14 @@ namespace Garantipay {
             data.Card = null;
             return _Transaction(data);
         }
-        public Dictionary<string, string> FormData(GVPSRequest data) {
+        public Dictionary<string, string> AuthForm(GVPSRequest data) {
+            data.Mode = Mode;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
+            data.Transaction.Type = "sales";
+            data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
             var form = new Dictionary<string, string>();
             var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
             foreach (var element in elements) {
