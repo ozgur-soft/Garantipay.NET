@@ -386,7 +386,7 @@ namespace Garantipay {
             data.Transaction.Type = "sales";
             data.Transaction.MotoInd = "N";
             data.Transaction.Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-            data.Terminal.HashData = Hash(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + Hex(Byte(StoreKey)) + Hash(Password + data.Terminal.Id.PadLeft(9, '0')));
+            data.Terminal.HashData = Hash(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + Hex(Byte(StoreKey)).ToLowerInvariant() + Hash(Password + data.Terminal.Id.PadLeft(9, '0')));
             var form = new Dictionary<string, string>();
             if (data != null) {
                 var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
