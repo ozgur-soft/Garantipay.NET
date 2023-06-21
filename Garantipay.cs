@@ -13,12 +13,12 @@ namespace Garantipay {
     }
     public class Garantipay {
         private string Mode { get; set; }
+        private string Endpoint { get; set; }
         private string TerminalId { get; set; }
         private string MerchantId { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
         private string StoreKey { get; set; }
-        private string Endpoint { get; set; }
         public void SetTerminalId(string terminalid) {
             TerminalId = terminalid;
         }
