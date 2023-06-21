@@ -152,7 +152,7 @@ namespace Garantipay {
             public string FirmCardNo { set; get; }
             [FormElement("txninstallmentcount")]
             [XmlElement("InstallmentCnt", IsNullable = false)]
-            public string InstallmentCnt { set; get; }
+            public string Installment { set; get; }
             [FormElement("txnamount")]
             [XmlElement("Amount", IsNullable = false)]
             public string Amount { set; get; }
@@ -212,7 +212,7 @@ namespace Garantipay {
                 };
             }
             public void SetInstallment(string installment) {
-                InstallmentCnt = installment;
+                Installment = installment;
             }
         }
         public class Secure3D {
@@ -364,13 +364,17 @@ namespace Garantipay {
             return _Transaction(data);
         }
         public Dictionary<string, string> AuthForm(GVPSRequest data) {
+            data.RefreshTime = "0";
             data.Mode = Mode;
             data.Terminal.Id = TerminalId;
             data.Terminal.MerchantId = MerchantId;
             data.Terminal.UserId = Username;
             data.Terminal.ProvUserId = Username;
+            data.Terminal.Level = "3D";
             data.Transaction.Type = "sales";
-            data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
+            data.Transaction.MotoInd = "N";
+            data.Transaction.Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+            data.Terminal.HashData = SHA1Encrypt(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
             var form = new Dictionary<string, string>();
             var root_elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
             foreach (var element in root_elements) {
