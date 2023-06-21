@@ -313,7 +313,7 @@ namespace Garantipay {
             data.Card = null;
             return _Transaction(data);
         }
-        private Dictionary<string, string> FormData(GVPSRequest data) {
+        public Dictionary<string, string> FormData(GVPSRequest data) {
             var form = new Dictionary<string, string>();
             var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
             foreach (var element in elements) {
