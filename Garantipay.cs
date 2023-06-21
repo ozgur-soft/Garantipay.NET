@@ -44,8 +44,10 @@ namespace Garantipay {
         }
         [Serializable, XmlRoot("GVPSRequest")]
         public class GVPSRequest {
+            [FormElement("mode")]
             [XmlElement("Mode", IsNullable = false)]
             public string Mode { set; get; }
+            [FormElement("apiversion")]
             [XmlElement("Version", IsNullable = false)]
             public string Version { set; get; }
             [XmlElement("ChannelCode", IsNullable = false)]
@@ -60,6 +62,12 @@ namespace Garantipay {
             public Order Order { set; get; }
             [XmlElement("Transaction", IsNullable = false)]
             public Transaction Transaction { set; get; }
+            [FormElement("companyname")]
+            public string CompanyName { set; get; }
+            [FormElement("refreshtime")]
+            public string RefreshTime { set; get; }
+            [FormElement("lang")]
+            public string Lang { set; get; }
             public GVPSRequest() {
                 Version = "v1.0";
                 Terminal = new Terminal();
@@ -70,22 +78,35 @@ namespace Garantipay {
             }
         }
         public class Terminal {
+            [FormElement("terminalmerchantid")]
             [XmlElement("MerchantID", IsNullable = false)]
             public string MerchantId { set; get; }
+            [FormElement("terminalprovuserid")]
             [XmlElement("ProvUserID", IsNullable = false)]
             public string ProvUserId { set; get; }
+            [FormElement("terminaluserid")]
             [XmlElement("UserID", IsNullable = false)]
             public string UserId { set; get; }
+            [FormElement("terminalid")]
             [XmlElement("ID", IsNullable = false)]
             public string Id { set; get; }
+            [FormElement("secure3dhash")]
             [XmlElement("HashData", IsNullable = false)]
             public string HashData { set; get; }
+            [FormElement("secure3dsecuritylevel")]
+            public string Level { set; get; }
         }
         public class Card {
+            [FormElement("cardnumber")]
             [XmlElement("Number", IsNullable = false)]
             public string Number { set; get; }
             [XmlElement("ExpireDate", IsNullable = false)]
             public string Expiry { set; get; }
+            [FormElement("cardexpiredatemonth")]
+            public string CardMonth { set; get; }
+            [FormElement("cardexpiredateyear")]
+            public string CardYear { set; get; }
+            [FormElement("cardcvv2")]
             [XmlElement("CVV2", IsNullable = false)]
             public string Code { set; get; }
             public void SetCardNumber(string cardnumber) {
@@ -99,8 +120,10 @@ namespace Garantipay {
             }
         }
         public class Customer {
+            [FormElement("customeripaddress")]
             [XmlElement("IPAddress", IsNullable = false)]
             public string IPv4 { set; get; }
+            [FormElement("customeremailaddress")]
             [XmlElement("EmailAddress", IsNullable = false)]
             public string Email { set; get; }
             public void SetIPv4(string ipv4) {
@@ -111,20 +134,26 @@ namespace Garantipay {
             }
         }
         public class Transaction {
+            [FormElement("txntype")]
             [XmlElement("Type", IsNullable = false)]
             public string Type { set; get; }
+            [FormElement("txnsubtype")]
             [XmlElement("SubType", IsNullable = false)]
             public string SubType { set; get; }
             [XmlElement("FirmCardNo", IsNullable = false)]
             public string FirmCardNo { set; get; }
+            [FormElement("txninstallmentcount")]
             [XmlElement("InstallmentCnt", IsNullable = false)]
             public string InstallmentCnt { set; get; }
+            [FormElement("txnamount")]
             [XmlElement("Amount", IsNullable = false)]
             public string Amount { set; get; }
+            [FormElement("txncurrencycode")]
             [XmlElement("CurrencyCode", IsNullable = false)]
             public string Currency { set; get; }
             [XmlElement("CardholderPresentCode", IsNullable = false)]
             public string CardholderPresentCode { set; get; }
+            [FormElement("txnmotoind")]
             [XmlElement("MotoInd", IsNullable = false)]
             public string MotoInd { set; get; }
             [XmlElement("AuthCode", IsNullable = false)]
@@ -151,6 +180,12 @@ namespace Garantipay {
             public Secure3D Secure3D { set; get; }
             [XmlElement("Response", IsNullable = false)]
             public Response Response { set; get; }
+            [FormElement("txntimestamp")]
+            public string Timestamp { set; get; }
+            [FormElement("successurl")]
+            public string SuccessUrl { set; get; }
+            [FormElement("errorurl")]
+            public string ErrorUrl { set; get; }
             public void SetAmount(string amount, string currency) {
                 Amount = amount.Replace(".", "");
                 Currency = currency switch {
@@ -180,8 +215,10 @@ namespace Garantipay {
             public string Md { set; get; }
         }
         public class Order {
+            [FormElement("orderid")]
             [XmlElement("OrderID", IsNullable = false)]
             public string OrderId { set; get; }
+            [FormElement("groupid")]
             [XmlElement("GroupID", IsNullable = false)]
             public string GroupId { set; get; }
             [XmlElement("AddressList", IsNullable = false)]
@@ -201,6 +238,7 @@ namespace Garantipay {
             public string Name { set; get; }
             [XmlElement("LastName", IsNullable = false)]
             public string LastName { set; get; }
+            [FormElement("cardholder")]
             [XmlElement("Company", IsNullable = false)]
             public string Company { set; get; }
             [XmlElement("Text", IsNullable = false)]
@@ -213,6 +251,7 @@ namespace Garantipay {
             public string District { set; get; }
             [XmlElement("PostalCode", IsNullable = false)]
             public string PostalCode { set; get; }
+            [FormElement("phone")]
             [XmlElement("PhoneNumber", IsNullable = false)]
             public string PhoneNumber { set; get; }
             [XmlElement("GsmNumber", IsNullable = false)]
