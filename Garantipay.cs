@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -12,11 +13,11 @@ namespace Garantipay {
     }
     public class Garantipay {
         private string Mode { get; set; }
-        private string Endpoint { get; set; }
         private string TerminalId { get; set; }
         private string MerchantId { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
+        private string Endpoint { get; set; }
         public void SetTerminalId(string terminalid) {
             TerminalId = terminalid;
         }
@@ -246,6 +247,13 @@ namespace Garantipay {
             [XmlElement("Transaction", IsNullable = false)]
             public Transaction Transaction { init; get; }
         }
+        [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true)]
+        public class FormElementAttribute : Attribute {
+            public string Key { get; }
+            public FormElementAttribute(string key) {
+                Key = key;
+            }
+        }
         public class Writer : StringWriter {
             public override Encoding Encoding => Encoding.UTF8;
         }
@@ -304,6 +312,18 @@ namespace Garantipay {
             data.Terminal.HashData = SHA1Encrypt(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + SHA1Encrypt(Password + data.Terminal.Id.PadLeft(9, '0')).ToUpperInvariant()).ToUpperInvariant();
             data.Card = null;
             return _Transaction(data);
+        }
+        private Dictionary<string, string> FormData(GVPSRequest data) {
+            var form = new Dictionary<string, string>();
+            var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+            foreach (var element in elements) {
+                var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                var value = element.GetValue(data)?.ToString();
+                if (!string.IsNullOrEmpty(value)) {
+                    form.Add(key, value);
+                }
+            }
+            return form;
         }
         private GVPSResponse _Transaction(GVPSRequest data) {
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
