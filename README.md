@@ -11,7 +11,7 @@ dotnet add package Garantipay --version 1.3.4
 namespace Garantipay {
     internal class Program {
         static void Main(string[] args) {
-            var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
+            var garantipay = new Garantipay(MODE.Prod); // Çalışma ortamı
             garantipay.SetTerminalId(""); // Terminal numarası
             garantipay.SetMerchantId(""); // İşyeri numarası
             garantipay.SetUsername("PROVAUT"); // Kullanıcı adı
@@ -37,7 +37,7 @@ namespace Garantipay {
 namespace Garantipay {
     internal class Program {
         static void Main(string[] args) {
-            var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
+            var garantipay = new Garantipay(MODE.Prod); // Çalışma ortamı
             garantipay.SetTerminalId(""); // Terminal numarası
             garantipay.SetMerchantId(""); // İşyeri numarası
             garantipay.SetUsername("PROVRFN"); // Kullanıcı adı
@@ -60,7 +60,7 @@ namespace Garantipay {
 namespace Garantipay {
     internal class Program {
         static void Main(string[] args) {
-            var garantipay = new Garantipay(MODE.Test); // Çalışma ortamı
+            var garantipay = new Garantipay(MODE.Prod); // Çalışma ortamı
             garantipay.SetTerminalId(""); // Terminal numarası
             garantipay.SetMerchantId(""); // İşyeri numarası
             garantipay.SetUsername("PROVRFN"); // Kullanıcı adı
