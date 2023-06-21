@@ -314,17 +314,14 @@ namespace Garantipay {
         public static string Json<T>(T data) where T : class {
             return JsonSerializer.Serialize(data, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, WriteIndented = true });
         }
-        public static string Hex(byte[] data) {
-            var hex = BitConverter.ToString(data).Replace("-", "").ToUpperInvariant();
-            return hex;
+        public static byte[] Byte(string data) {
+            return Encoding.ASCII.GetBytes(data);
         }
-        public static string Hex(string data) {
-            var hex = BitConverter.ToString(Encoding.ASCII.GetBytes(data)).Replace("-", "").ToUpperInvariant();
-            return hex;
+        public static string Hex(byte[] data) {
+            return BitConverter.ToString(data).Replace("-", "").ToUpperInvariant();
         }
         public static string Hash(string data) {
-            var hash = Hex(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data)));
-            return hash;
+            return Hex(SHA1.Create().ComputeHash(Byte(data)));
         }
         public GVPSResponse PreAuth(GVPSRequest data) {
             data.Mode = Mode;
@@ -389,7 +386,7 @@ namespace Garantipay {
             data.Transaction.Type = "sales";
             data.Transaction.MotoInd = "N";
             data.Transaction.Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-            data.Terminal.HashData = Hash(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + Hex(StoreKey) + Hash(Password + data.Terminal.Id.PadLeft(9, '0')));
+            data.Terminal.HashData = Hash(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + Hex(Byte(StoreKey)) + Hash(Password + data.Terminal.Id.PadLeft(9, '0')));
             var form = new Dictionary<string, string>();
             if (data != null) {
                 var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
