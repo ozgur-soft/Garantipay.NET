@@ -114,6 +114,8 @@ namespace Garantipay {
             }
             public void SetCardExpiry(string cardmonth, string cardyear) {
                 Expiry = cardmonth + cardyear;
+                CardMonth = cardmonth;
+                CardYear = cardyear;
             }
             public void SetCardCode(string cardcode) {
                 Code = cardcode;
