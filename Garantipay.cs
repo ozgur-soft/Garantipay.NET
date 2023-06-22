@@ -374,6 +374,101 @@ namespace Garantipay {
             data.Card = null;
             return _Transaction(data);
         }
+        public GVPSResponse PreAuth3d(GVPSRequest data) {
+            data.Mode = Mode;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
+            data.Transaction.Type = "preauth";
+            data.Terminal.HashData = Hash(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + Hash(Password + data.Terminal.Id.PadLeft(9, '0')));
+            return _Transaction(data);
+        }
+        public GVPSResponse Auth3d(GVPSRequest data) {
+            data.Mode = Mode;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
+            data.Transaction.Type = "sales";
+            data.Terminal.HashData = Hash(data.Order.OrderId + data.Terminal.Id + data.Card.Number + data.Transaction.Amount + Hash(Password + data.Terminal.Id.PadLeft(9, '0')));
+            return _Transaction(data);
+        }
+        public Dictionary<string, string> PreAuth3dForm(GVPSRequest data) {
+            data.RefreshTime = "0";
+            data.Mode = Mode;
+            data.Terminal.Id = TerminalId;
+            data.Terminal.MerchantId = MerchantId;
+            data.Terminal.UserId = Username;
+            data.Terminal.ProvUserId = Username;
+            data.Terminal.Level = "3D";
+            data.Transaction.Type = "preauth";
+            data.Transaction.MotoInd = "N";
+            data.Transaction.Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+            data.Terminal.HashData = Hash(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + Hex(Byte(StoreKey)).ToLowerInvariant() + Hash(Password + data.Terminal.Id.PadLeft(9, '0')));
+            var form = new Dictionary<string, string>();
+            if (data != null) {
+                var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
+                    }
+                }
+                if (data.Terminal != null) {
+                    var terminal_elements = data.Terminal.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                    foreach (var element in terminal_elements) {
+                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                        var value = element.GetValue(data.Terminal)?.ToString();
+                        if (!string.IsNullOrEmpty(value)) {
+                            form.Add(key, value);
+                        }
+                    }
+                }
+                if (data.Order != null) {
+                    var order_elements = data.Order.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                    foreach (var element in order_elements) {
+                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                        var value = element.GetValue(data.Order)?.ToString();
+                        if (!string.IsNullOrEmpty(value)) {
+                            form.Add(key, value);
+                        }
+                    }
+                }
+                if (data.Transaction != null) {
+                    var transaction_elements = data.Transaction.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                    foreach (var element in transaction_elements) {
+                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                        var value = element.GetValue(data.Transaction)?.ToString();
+                        if (!string.IsNullOrEmpty(value)) {
+                            form.Add(key, value);
+                        }
+                    }
+                }
+                if (data.Card != null) {
+                    var card_elements = data.Card.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                    foreach (var element in card_elements) {
+                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                        var value = element.GetValue(data.Card)?.ToString();
+                        if (!string.IsNullOrEmpty(value)) {
+                            form.Add(key, value);
+                        }
+                    }
+                }
+                if (data.Customer != null) {
+                    var customer_elements = data.Customer.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                    foreach (var element in customer_elements) {
+                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                        var value = element.GetValue(data.Customer)?.ToString();
+                        if (!string.IsNullOrEmpty(value)) {
+                            form.Add(key, value);
+                        }
+                    }
+                }
+            }
+            return form;
+        }
         public Dictionary<string, string> Auth3dForm(GVPSRequest data) {
             data.RefreshTime = "0";
             data.Mode = Mode;
