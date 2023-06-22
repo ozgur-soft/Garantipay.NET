@@ -46,7 +46,7 @@ namespace Garantipay {
                 _ => null
             };
         }
-        [Serializable, XmlRoot("GVPSRequest")]
+        [XmlRoot("GVPSRequest")]
         public class GVPSRequest {
             [FormElement("mode")]
             [XmlElement("Mode", IsNullable = false)]
@@ -288,7 +288,7 @@ namespace Garantipay {
             [XmlElement("SysErrMsg", IsNullable = false)]
             public string SysErrMsg { set; get; }
         }
-        [Serializable, XmlRoot("GVPSResponse")]
+        [XmlRoot("GVPSResponse")]
         public class GVPSResponse {
             [XmlElement("Terminal", IsNullable = false)]
             public Terminal Terminal { init; get; }
@@ -301,7 +301,6 @@ namespace Garantipay {
             [XmlElement("Transaction", IsNullable = false)]
             public Transaction Transaction { init; get; }
         }
-        [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true)]
         public class FormElementAttribute : Attribute {
             public string Key { get; }
             public FormElementAttribute(string key) {
