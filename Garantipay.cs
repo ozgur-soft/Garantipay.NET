@@ -12,8 +12,8 @@ namespace Garantipay {
         Prod
     }
     public class Garantipay {
-        private string Mode { get; set; }
-        private string Endpoint { get; set; }
+        public string Mode { get; set; }
+        public string Endpoint { get; set; }
         private string TerminalId { get; set; }
         private string MerchantId { get; set; }
         private string Username { get; set; }
@@ -50,31 +50,31 @@ namespace Garantipay {
         public class GVPSRequest {
             [FormElement("mode")]
             [XmlElement("Mode", IsNullable = false)]
-            public string Mode { set; get; }
+            public string Mode { get; set; }
             [FormElement("apiversion")]
             [XmlElement("Version", IsNullable = false)]
-            public string Version { set; get; }
+            public string Version { get; set; }
             [XmlElement("ChannelCode", IsNullable = false)]
-            public string ChannelCode { set; get; }
+            public string ChannelCode { get; set; }
             [XmlElement("Terminal", IsNullable = false)]
-            public Terminal Terminal { set; get; }
+            public Terminal Terminal { get; set; }
             [XmlElement("Customer", IsNullable = false)]
-            public Customer Customer { set; get; }
+            public Customer Customer { get; set; }
             [XmlElement("Card", IsNullable = false)]
-            public Card Card { set; get; }
+            public Card Card { get; set; }
             [XmlElement("Order", IsNullable = false)]
-            public Order Order { set; get; }
+            public Order Order { get; set; }
             [XmlElement("Transaction", IsNullable = false)]
-            public Transaction Transaction { set; get; }
+            public Transaction Transaction { get; set; }
             [FormElement("companyname")]
             [XmlIgnore]
-            public string CompanyName { set; get; }
+            public string CompanyName { get; set; }
             [FormElement("refreshtime")]
             [XmlIgnore]
-            public string RefreshTime { set; get; }
+            public string RefreshTime { get; set; }
             [FormElement("lang")]
             [XmlIgnore]
-            public string Lang { set; get; }
+            public string Lang { get; set; }
             public GVPSRequest() {
                 Version = "v1.0";
                 Terminal = new Terminal();
@@ -87,38 +87,38 @@ namespace Garantipay {
         public class Terminal {
             [FormElement("terminalmerchantid")]
             [XmlElement("MerchantID", IsNullable = false)]
-            public string MerchantId { set; get; }
+            public string MerchantId { get; set; }
             [FormElement("terminalprovuserid")]
             [XmlElement("ProvUserID", IsNullable = false)]
-            public string ProvUserId { set; get; }
+            public string ProvUserId { get; set; }
             [FormElement("terminaluserid")]
             [XmlElement("UserID", IsNullable = false)]
-            public string UserId { set; get; }
+            public string UserId { get; set; }
             [FormElement("terminalid")]
             [XmlElement("ID", IsNullable = false)]
-            public string Id { set; get; }
+            public string Id { get; set; }
             [FormElement("secure3dhash")]
             [XmlElement("HashData", IsNullable = false)]
-            public string HashData { set; get; }
+            public string HashData { get; set; }
             [FormElement("secure3dsecuritylevel")]
             [XmlIgnore]
-            public string Level { set; get; }
+            public string Level { get; set; }
         }
         public class Card {
             [FormElement("cardnumber")]
             [XmlElement("Number", IsNullable = false)]
-            public string Number { set; get; }
+            public string Number { get; set; }
             [XmlElement("ExpireDate", IsNullable = false)]
-            public string Expiry { set; get; }
+            public string Expiry { get; set; }
             [FormElement("cardexpiredatemonth")]
             [XmlIgnore]
-            public string CardMonth { set; get; }
+            public string CardMonth { get; set; }
             [FormElement("cardexpiredateyear")]
             [XmlIgnore]
-            public string CardYear { set; get; }
+            public string CardYear { get; set; }
             [FormElement("cardcvv2")]
             [XmlElement("CVV2", IsNullable = false)]
-            public string Code { set; get; }
+            public string Code { get; set; }
             public void SetCardNumber(string cardnumber) {
                 Number = cardnumber;
             }
@@ -134,10 +134,10 @@ namespace Garantipay {
         public class Customer {
             [FormElement("customeripaddress")]
             [XmlElement("IPAddress", IsNullable = false)]
-            public string IPv4 { set; get; }
+            public string IPv4 { get; set; }
             [FormElement("customeremailaddress")]
             [XmlElement("EmailAddress", IsNullable = false)]
-            public string Email { set; get; }
+            public string Email { get; set; }
             public void SetIPv4(string ipv4) {
                 IPv4 = ipv4;
             }
@@ -148,59 +148,59 @@ namespace Garantipay {
         public class Transaction {
             [FormElement("txntype")]
             [XmlElement("Type", IsNullable = false)]
-            public string Type { set; get; }
+            public string Type { get; set; }
             [FormElement("txnsubtype")]
             [XmlElement("SubType", IsNullable = false)]
-            public string SubType { set; get; }
+            public string SubType { get; set; }
             [XmlElement("FirmCardNo", IsNullable = false)]
-            public string FirmCardNo { set; get; }
+            public string FirmCardNo { get; set; }
             [FormElement("txninstallmentcount")]
             [XmlElement("InstallmentCnt", IsNullable = false)]
-            public string Installment { set; get; }
+            public string Installment { get; set; }
             [FormElement("txnamount")]
             [XmlElement("Amount", IsNullable = false)]
-            public string Amount { set; get; }
+            public string Amount { get; set; }
             [FormElement("txncurrencycode")]
             [XmlElement("CurrencyCode", IsNullable = false)]
-            public string Currency { set; get; }
+            public string Currency { get; set; }
             [XmlElement("CardholderPresentCode", IsNullable = false)]
-            public string CardholderPresentCode { set; get; }
+            public string CardholderPresentCode { get; set; }
             [FormElement("txnmotoind")]
             [XmlElement("MotoInd", IsNullable = false)]
-            public string MotoInd { set; get; }
+            public string MotoInd { get; set; }
             [XmlElement("AuthCode", IsNullable = false)]
-            public string AuthCode { set; get; }
+            public string AuthCode { get; set; }
             [XmlElement("RetrefNum", IsNullable = false)]
-            public string RetrefNum { set; get; }
+            public string RetrefNum { get; set; }
             [XmlElement("BatchNum", IsNullable = false)]
-            public string BatchNum { set; get; }
+            public string BatchNum { get; set; }
             [XmlElement("SequenceNum", IsNullable = false)]
-            public string SequenceNum { set; get; }
+            public string SequenceNum { get; set; }
             [XmlElement("ProvDate", IsNullable = false)]
-            public string ProvDate { set; get; }
+            public string ProvDate { get; set; }
             [XmlElement("CardNumberMasked", IsNullable = false)]
-            public string CardNumberMasked { set; get; }
+            public string CardNumberMasked { get; set; }
             [XmlElement("CardHolderName", IsNullable = false)]
-            public string CardHolderName { set; get; }
+            public string CardHolderName { get; set; }
             [XmlElement("CardType", IsNullable = false)]
-            public string CardType { set; get; }
+            public string CardType { get; set; }
             [XmlElement("HashData", IsNullable = false)]
-            public string HashData { set; get; }
+            public string HashData { get; set; }
             [XmlElement("Description", IsNullable = false)]
-            public string Description { set; get; }
+            public string Description { get; set; }
             [XmlElement("Secure3D", IsNullable = false)]
-            public Secure3D Secure3D { set; get; }
+            public Secure3D Secure3D { get; set; }
             [XmlElement("Response", IsNullable = false)]
-            public Response Response { set; get; }
+            public Response Response { get; set; }
             [FormElement("txntimestamp")]
             [XmlIgnore]
-            public string Timestamp { set; get; }
+            public string Timestamp { get; set; }
             [FormElement("successurl")]
             [XmlIgnore]
-            public string SuccessUrl { set; get; }
+            public string SuccessUrl { get; set; }
             [FormElement("errorurl")]
             [XmlIgnore]
-            public string ErrorUrl { set; get; }
+            public string ErrorUrl { get; set; }
             public void SetAmount(string amount, string currency) {
                 Amount = amount.Replace(".", "");
                 Currency = currency switch {
@@ -221,72 +221,72 @@ namespace Garantipay {
         }
         public class Secure3D {
             [XmlElement("AuthenticationCode", IsNullable = false)]
-            public string AuthenticationCode { set; get; }
+            public string AuthenticationCode { get; set; }
             [XmlElement("SecurityLevel", IsNullable = false)]
-            public string SecurityLevel { set; get; }
+            public string SecurityLevel { get; set; }
             [XmlElement("TxnID", IsNullable = false)]
-            public string TxnId { set; get; }
+            public string TxnId { get; set; }
             [XmlElement("Md", IsNullable = false)]
-            public string Md { set; get; }
+            public string Md { get; set; }
         }
         public class Order {
             [FormElement("orderid")]
             [XmlElement("OrderID", IsNullable = false)]
-            public string OrderId { set; get; }
+            public string OrderId { get; set; }
             [FormElement("groupid")]
             [XmlElement("GroupID", IsNullable = false)]
-            public string GroupId { set; get; }
+            public string GroupId { get; set; }
             [XmlElement("AddressList", IsNullable = false)]
-            public AddressList AddressList { set; get; }
+            public AddressList AddressList { get; set; }
             public void SetOrderId(string orderid) {
                 OrderId = orderid;
             }
         }
         public class AddressList {
             [XmlElement("Address", IsNullable = false)]
-            public Address Address { set; get; }
+            public Address Address { get; set; }
         }
         public class Address {
             [XmlElement("Type", IsNullable = false)]
-            public string Type { set; get; }
+            public string Type { get; set; }
             [XmlElement("Name", IsNullable = false)]
-            public string Name { set; get; }
+            public string Name { get; set; }
             [XmlElement("LastName", IsNullable = false)]
-            public string LastName { set; get; }
+            public string LastName { get; set; }
             [FormElement("cardholder")]
             [XmlElement("Company", IsNullable = false)]
-            public string Company { set; get; }
+            public string Company { get; set; }
             [XmlElement("Text", IsNullable = false)]
-            public string Text { set; get; }
+            public string Text { get; set; }
             [XmlElement("Country", IsNullable = false)]
-            public string Country { set; get; }
+            public string Country { get; set; }
             [XmlElement("City", IsNullable = false)]
-            public string City { set; get; }
+            public string City { get; set; }
             [XmlElement("District", IsNullable = false)]
-            public string District { set; get; }
+            public string District { get; set; }
             [XmlElement("PostalCode", IsNullable = false)]
-            public string PostalCode { set; get; }
+            public string PostalCode { get; set; }
             [FormElement("phone")]
             [XmlElement("PhoneNumber", IsNullable = false)]
-            public string PhoneNumber { set; get; }
+            public string PhoneNumber { get; set; }
             [XmlElement("GsmNumber", IsNullable = false)]
-            public string GsmNumber { set; get; }
+            public string GsmNumber { get; set; }
             [XmlElement("FaxNumber", IsNullable = false)]
-            public string FaxNumber { set; get; }
+            public string FaxNumber { get; set; }
         }
         public class Response {
             [XmlElement("Source", IsNullable = false)]
-            public string Source { set; get; }
+            public string Source { get; set; }
             [XmlElement("Code", IsNullable = false)]
-            public string Code { set; get; }
+            public string Code { get; set; }
             [XmlElement("ReasonCode", IsNullable = false)]
-            public string ReasonCode { set; get; }
+            public string ReasonCode { get; set; }
             [XmlElement("Message", IsNullable = false)]
-            public string Message { set; get; }
+            public string Message { get; set; }
             [XmlElement("ErrorMsg", IsNullable = false)]
-            public string ErrorMsg { set; get; }
+            public string ErrorMsg { get; set; }
             [XmlElement("SysErrMsg", IsNullable = false)]
-            public string SysErrMsg { set; get; }
+            public string SysErrMsg { get; set; }
         }
         [XmlRoot("GVPSResponse")]
         public class GVPSResponse {
