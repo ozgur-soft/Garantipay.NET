@@ -41,8 +41,8 @@ namespace Garantipay {
                 _ => null
             };
             Endpoint = mode switch {
-                MODE.Test => "https://sanalposprovtest.garanti.com.tr/VPServlet",
-                MODE.Prod => "https://sanalposprov.garanti.com.tr/VPServlet",
+                MODE.Test => "https://sanalposprovtest.garanti.com.tr",
+                MODE.Prod => "https://sanalposprov.garanti.com.tr",
                 _ => null
             };
         }
@@ -553,7 +553,7 @@ namespace Garantipay {
             gvpsrequest.Serialize(writer, data, ns);
             try {
                 using var http = new HttpClient();
-                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) { Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml") };
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint + "/VPServlet") { Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml") };
                 using var response = http.Send(request);
                 var result = (GVPSResponse)gvpsresponse.Deserialize(response.Content.ReadAsStream());
                 return result;
