@@ -465,7 +465,7 @@ namespace Garantipay {
                     }
                 }
             }
-            return form;
+            return form.OrderBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
         public Dictionary<string, string> Auth3dForm(GVPSRequest data) {
             data.RefreshTime = "0";
