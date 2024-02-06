@@ -3,7 +3,7 @@ Garanti Bankası POS API with .NET
 
 # Installation
 ```bash
-dotnet add package Garantipay --version 1.4.1
+dotnet add package Garantipay --version 1.5.0
 ```
 
 # Satış
