@@ -406,64 +406,62 @@ namespace Garantipay {
             data.Transaction.MotoInd = "N";
             data.Transaction.Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
             data.Terminal.HashData = Hash(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + Hex(Byte(StoreKey)).ToLowerInvariant() + Hash(Password + data.Terminal.Id.PadLeft(9, '0')));
-            var form = new Dictionary<string, string>();
-            if (data != null) {
-                var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                foreach (var element in elements) {
+            var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+            var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+            foreach (var element in elements) {
+                var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                var value = element.GetValue(data)?.ToString();
+                if (!string.IsNullOrEmpty(value)) {
+                    form.Add(key, value);
+                }
+            }
+            if (data.Terminal != null) {
+                var terminal_elements = data.Terminal.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in terminal_elements) {
                     var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                    var value = element.GetValue(data)?.ToString();
+                    var value = element.GetValue(data.Terminal)?.ToString();
                     if (!string.IsNullOrEmpty(value)) {
                         form.Add(key, value);
                     }
                 }
-                if (data.Terminal != null) {
-                    var terminal_elements = data.Terminal.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in terminal_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Terminal)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
+            }
+            if (data.Order != null) {
+                var order_elements = data.Order.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in order_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.Order)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
                     }
                 }
-                if (data.Order != null) {
-                    var order_elements = data.Order.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in order_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Order)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
+            }
+            if (data.Transaction != null) {
+                var transaction_elements = data.Transaction.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in transaction_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.Transaction)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
                     }
                 }
-                if (data.Transaction != null) {
-                    var transaction_elements = data.Transaction.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in transaction_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Transaction)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
+            }
+            if (data.Card != null) {
+                var card_elements = data.Card.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in card_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.Card)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
                     }
                 }
-                if (data.Card != null) {
-                    var card_elements = data.Card.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in card_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Card)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
-                    }
-                }
-                if (data.Customer != null) {
-                    var customer_elements = data.Customer.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in customer_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Customer)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
+            }
+            if (data.Customer != null) {
+                var customer_elements = data.Customer.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in customer_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.Customer)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
                     }
                 }
             }
@@ -481,68 +479,66 @@ namespace Garantipay {
             data.Transaction.MotoInd = "N";
             data.Transaction.Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
             data.Terminal.HashData = Hash(data.Terminal.Id + data.Order.OrderId + data.Transaction.Amount + data.Transaction.SuccessUrl + data.Transaction.ErrorUrl + data.Transaction.Type + data.Transaction.Installment + Hex(Byte(StoreKey)).ToLowerInvariant() + Hash(Password + data.Terminal.Id.PadLeft(9, '0')));
-            var form = new Dictionary<string, string>();
-            if (data != null) {
-                var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                foreach (var element in elements) {
+            var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+            var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+            foreach (var element in elements) {
+                var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                var value = element.GetValue(data)?.ToString();
+                if (!string.IsNullOrEmpty(value)) {
+                    form.Add(key, value);
+                }
+            }
+            if (data.Terminal != null) {
+                var terminal_elements = data.Terminal.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in terminal_elements) {
                     var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                    var value = element.GetValue(data)?.ToString();
+                    var value = element.GetValue(data.Terminal)?.ToString();
                     if (!string.IsNullOrEmpty(value)) {
                         form.Add(key, value);
                     }
                 }
-                if (data.Terminal != null) {
-                    var terminal_elements = data.Terminal.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in terminal_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Terminal)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
-                    }
-                }
-                if (data.Order != null) {
-                    var order_elements = data.Order.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in order_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Order)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
-                    }
-                }
-                if (data.Transaction != null) {
-                    var transaction_elements = data.Transaction.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in transaction_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Transaction)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
-                    }
-                }
-                if (data.Card != null) {
-                    var card_elements = data.Card.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in card_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Card)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
-                    }
-                }
-                if (data.Customer != null) {
-                    var customer_elements = data.Customer.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in customer_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.Customer)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
+            }
+            if (data.Order != null) {
+                var order_elements = data.Order.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in order_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.Order)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
                     }
                 }
             }
-            return form;
+            if (data.Transaction != null) {
+                var transaction_elements = data.Transaction.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in transaction_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.Transaction)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
+                    }
+                }
+            }
+            if (data.Card != null) {
+                var card_elements = data.Card.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in card_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.Card)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
+                    }
+                }
+            }
+            if (data.Customer != null) {
+                var customer_elements = data.Customer.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in customer_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.Customer)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
+                    }
+                }
+            }
+            return form.OrderBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
         private GVPSResponse _Transaction(GVPSRequest data) {
             var gvpsrequest = new XmlSerializer(typeof(GVPSRequest));
