@@ -314,7 +314,7 @@ namespace Garantipay {
             return JsonSerializer.Serialize(data, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, WriteIndented = true });
         }
         public static byte[] Byte(string data) {
-            return Encoding.ASCII.GetBytes(data);
+            return Encoding.UTF8.GetBytes(data);
         }
         public static string Hex(byte[] data) {
             return BitConverter.ToString(data).Replace("-", "").ToUpperInvariant();
